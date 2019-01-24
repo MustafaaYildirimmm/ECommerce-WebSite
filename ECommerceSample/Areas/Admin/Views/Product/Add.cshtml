@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+    <h2>Product Add</h2>
+</div>
+
+<form action="~/Admin/Product/AddPro" method="post">
+    <div class="form-group">
+        <input name="ProductName" class="form-control" placeholder="Product Name"/>
+        <input name="Price" class="form-control" placeholder="Price"/>
+        <input name="Stock" class="form-control" placeholder="Stock" />
+        <input name="Photo" class="form-control" placeholder="Photo" />
+        @Html.DropDownList("CategoryID",null,"Kategori Seciniz",new { @class="form-control"})
+        @Html.DropDownList("BrandID",null,"Marka Seciniz",new { @class="form-control"})
+        <input type="submit" class="btn btn-success" value="Save" />
+    </div>
+</form>
+

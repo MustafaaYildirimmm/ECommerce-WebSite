@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using ECommerce.Entity;
+@model IEnumerable<Category>
+<div class="container">
+    <h3>Category List</h3>
+</div>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>CategoryName:</th>
+                <th>Description:</th>
+                <th>Edit & Delete</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (Category item in Model)
+            {
+                <tr>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <a href="~/Admin/Category/Update?id=@item.CategoryID" class="btn btn-success">Edit</a>
+                        <a href="~/Admin/Category/Delete?id=@item.CategoryID" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+

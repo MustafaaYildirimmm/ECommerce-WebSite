@@ -1,0 +1,44 @@
+﻿@using ECommerce.Entity;
+@model List<Brand>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Brand List</h2>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            BrandName:
+        </th>
+        <th>
+            Photo:
+        </th>
+        <th>
+            Description:
+        </th>
+        <th>Edit & Delete</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.BrandName
+            </td>
+            <td>
+                @item.Photo
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                <a href="#" class="btn btn-success">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
