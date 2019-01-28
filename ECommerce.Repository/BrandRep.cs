@@ -9,16 +9,21 @@ using ECommerce.Repository;
 
 namespace ECommerce.Repository
 {
-    public class BrandRep : DataRepository<Brand>
+    public class BrandRep : DataRepository<Brand,int>
     {
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Brand> result = new ResultProccess<Brand>();
 
-        public override Result<int> Delete(Brand item)
+        public override Result<int> Delete(int id)
         {
-            Brand b = db.Brands.SingleOrDefault(t => t.BrandID == item.BrandID);
+            Brand b = db.Brands.SingleOrDefault(t => t.BrandID == id);
             db.Brands.Remove(b);
             return result.GetResult(db);
+        }
+
+        public override Result<Brand> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public override Result<int> Insert(Brand item)

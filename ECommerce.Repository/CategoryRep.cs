@@ -8,16 +8,22 @@ using ECommerce.Common;
 
 namespace ECommerce.Repository
 {
-    public class CategoryRep : DataRepository<Category>
+    public class CategoryRep : DataRepository<Category,Guid>
     {
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Category> result = new ResultProccess<Category>();
 
-        public override Result<int> Delete(Category item)
+        public override Result<int> Delete(Guid id)
         {
-            Category c = db.Categories.SingleOrDefault(t => t.CategoryID == item.CategoryID);
+            Category c = db.Categories.SingleOrDefault(t => t.CategoryID == id);
             db.Categories.Remove(c);
             return result.GetResult(db);
+        }
+
+        public override Result<Category> GetById(Guid id)
+        {
+            Category c = db.Categories.SingleOrDefault(t => t.CategoryID == id);
+            return result.GetT(c);
         }
 
         public override Result<int> Insert(Category item)

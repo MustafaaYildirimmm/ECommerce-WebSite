@@ -8,16 +8,21 @@ using ECommerce.Common;
 
 namespace ECommerce.Repository
 {
-    public class ProductRep : DataRepository<Product>
+    public class ProductRep : DataRepository<Product,int>
     {
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Product> result = new ResultProccess<Product>();
 
-        public override Result<int> Delete(Product item)
+        public override Result<int> Delete(int id)
         {
-            Product p = db.Products.SingleOrDefault(t => t.ProductID == item.ProductID);
+            Product p = db.Products.SingleOrDefault(t => t.ProductID == id);
             db.Products.Remove(p);
             return result.GetResult(db);
+        }
+
+        public override Result<Product> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public override Result<int> Insert(Product item)

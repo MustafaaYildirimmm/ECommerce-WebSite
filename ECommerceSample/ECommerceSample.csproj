@@ -127,6 +127,16 @@
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\js\plugins\morris\raphael.min.js" />
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\tables.html" />
     <Content Include="Global.asax" />
+    <Content Include="Areas\Admin\Views\Category\AddCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\EditCategory.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -181,12 +191,10 @@
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\README.md" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Category\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Add.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Product\List.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\Add.cshtml" />
     <None Include="packages.config" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

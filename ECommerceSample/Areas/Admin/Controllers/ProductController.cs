@@ -19,43 +19,8 @@ namespace ECommerceSample.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult List()
         {
-            GetProList = db.GetProductList().ToList();
-            result = pr.List();
-            return View(GetProList);
+            return View(db.Products.ToList());
         }
-        public ActionResult Add()
-        {
-            List<SelectListItem> category = new List<SelectListItem>();
-            List<SelectListItem> brand = new List<SelectListItem>();
-            List<Category> CatList = db.Categories.ToList();
-            List<Brand> BrandList = db.Brands.ToList();
-
-            foreach (var item in CatList)
-            {
-                category.Add(new SelectListItem
-                {
-                    Text = item.CategoryName,
-                    Value = item.CategoryID.ToString()
-                });
-            }
-
-            foreach (var item in BrandList)
-            {
-                brand.Add(new SelectListItem
-                {
-                    Text = item.BrandName,
-                    Value = item.BrandID.ToString()
-                });
-            }
-            ViewBag.CategoryID = category;
-            ViewBag.BrandID = brand;
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddPro(Product pro)
-        {
-            pr.Insert(pro);
-            return RedirectToAction("List", "Product");
-        }
+       
     }
 }

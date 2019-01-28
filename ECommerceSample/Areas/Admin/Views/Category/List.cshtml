@@ -6,33 +6,30 @@
 
 @using ECommerce.Entity;
 @model IEnumerable<Category>
-<div class="container">
-    <h3>Category List</h3>
+
+
+<h2 class="text-center">Category List</h2>
+<div class="alert-success">
+    @ViewBag.Message
 </div>
+<table class="table table-hover">
+    <tr class="active">
+        <th>CategoryName:</th>
+        <th>Description:</th>
+        <th>Edit & Delete</th>
+    </tr>
 
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>CategoryName:</th>
-                <th>Description:</th>
-                <th>Edit & Delete</th>
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (Category item in Model)
-            {
-                <tr>
-                    <td>@item.CategoryName</td>
-                    <td>@item.Description</td>
-                    <td>
-                        <a href="~/Admin/Category/Update?id=@item.CategoryID" class="btn btn-success">Edit</a>
-                        <a href="~/Admin/Category/Delete?id=@item.CategoryID" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (Category item in Model)
+    {
+        <tr>
+            <td>@item.CategoryName</td>
+            <td>@item.Description</td>
+            <td class=" col-md-4">
+                <a href="~/Admin/Category/EditCategory?id=@item.CategoryID" class="btn btn-success col-xs-6 col-md-4">Edit</a>
+                @Html.ActionLink("Delete", "Delete", new { @id = item.CategoryID }, new { @class = "btn btn-danger col-xs-6 col-md-5" })
+            </td>
+        </tr>
+    }
+</table>
 
 

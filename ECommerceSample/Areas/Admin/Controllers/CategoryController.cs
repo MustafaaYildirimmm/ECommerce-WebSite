@@ -11,44 +11,53 @@ namespace ECommerceSample.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
-        private static ECommerceEntities db = Tools.GetConnection();
         CategoryRep cr = new CategoryRep();
         Result<List<Category>> result = new Result<List<Category>>();
+        Result<Category> resultt = new Result<Category>();
+        Result<int> resultint = new Result<int>();
+        
         // GET: Admin/Category
-        public ActionResult List()
+        public ActionResult List(string message,Guid? id)
         {
             result=cr.List();
+            if (message != null)
+                ViewBag.Message = String.Format("{0} nolu kaydin guncelleme islemi {1}", id, message);
+            else
+                ViewBag.Message = "";
+
             return View(result.ProccessResult);
-        }
-        public ActionResult Add()
+        } 
+        public ActionResult AddCategory()
         {
             return View();
         }
-
-        public ActionResult CatAdd(Category c)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCategory(Category model)
         {
-            c.CategoryID = Guid.NewGuid();
-            Result<int> result=cr.Insert(c);
-            ViewBag.Message = result.UserMessage;
-            return RedirectToAction("List", "Category");
+            model.CategoryID = Guid.NewGuid();
+            resultint=cr.Insert(model);
+            ViewBag.Message = resultint.UserMessage;
+            return View();
         }
-        public ActionResult Update(Guid ID)
+
+        public ActionResult Delete(Guid id)
         {
-            Category c = db.Categories.FirstOrDefault(t => t.CategoryID == ID);
-            return View(c);
+            resultint= cr.Delete(id);
+            return RedirectToAction("List",new { @message=resultint.UserMessage});
+        }
+
+        public ActionResult EditCategory(Guid id)
+        {
+            resultt=cr.GetById(id);
+            return View(resultt.ProccessResult);
         }
 
         [HttpPost]
-        public ActionResult CatUpdate(Category c)
+        public ActionResult EditCategory(Category model)
         {
-            cr.Update(c);
-            return RedirectToAction("List", "Category");
-        }
-        public ActionResult Delete(Guid ID)
-        {
-            Category c = db.Categories.SingleOrDefault(t => t.CategoryID == ID);
-            cr.Delete(c);
-            return RedirectToAction("List", "Category");
+            resultint = cr.Update(model);
+            return RedirectToAction("List", new { @m = resultint.UserMessage, @id = model.CategoryID });
         }
     }
 }
