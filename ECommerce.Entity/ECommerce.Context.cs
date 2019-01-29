@@ -34,9 +34,10 @@ namespace ECommerce.Entity
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual ObjectResult<GetProductList_Result> GetProductList()
         {

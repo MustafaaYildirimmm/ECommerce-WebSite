@@ -46,7 +46,6 @@ namespace ECommerce.Repository
             p.CategoryID = item.CategoryID;
             p.BrandID = item.BrandID;
             p.Price = item.Price;
-            p.Photo = item.Photo;
             return result.GetResult(db);
         }
     }

@@ -19,6 +19,7 @@ namespace ECommerce.Entity
         {
             this.Invoices = new HashSet<Invoice>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Photos = new HashSet<Photo>();
         }
     
         public int ProductID { get; set; }
@@ -27,7 +28,6 @@ namespace ECommerce.Entity
         public Nullable<int> Stock { get; set; }
         public Nullable<int> BrandID { get; set; }
         public Nullable<System.Guid> CategoryID { get; set; }
-        public string Photo { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }
@@ -35,5 +35,7 @@ namespace ECommerce.Entity
         public virtual ICollection<Invoice> Invoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Photo> Photos { get; set; }
     }
 }

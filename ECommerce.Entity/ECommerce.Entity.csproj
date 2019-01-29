@@ -89,6 +89,9 @@
     <Compile Include="Payment.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
+    <Compile Include="Photo.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>

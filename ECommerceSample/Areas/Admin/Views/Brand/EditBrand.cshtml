@@ -1,0 +1,45 @@
+﻿@using ECommerce.Entity
+@model ECommerce.Entity.Brand
+@{
+    ViewBag.Title = "EditBrand";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Edit Brand</h2>
+@using (Html.BeginForm("EditBrand","Brand",FormMethod.Post,new { enctype="multipart/form-data"}))
+{
+    <fieldset>
+        <legend>Brand</legend>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.BrandName, "Brand Name:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Photo, "Photo:", new { @class="control-label col-md-2"})
+                <div class="col-md-10">
+                    <img src="~/Upload/@Model.Photo" width="100" height="100"  />
+                    <input type="file" name="photoPath" id="photoPath" />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, "Description:",  new { @class="control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class="form-control"})
+                    @Html.ValidationMessageFor(model => model.Description,"", new { @class="text-danger"})
+                </div>
+               
+            </div>
+            <div class="col-md-offset-2 col-xs-offset-5">
+                <input type="submit"value="Update" class="btn btn-success"/>
+            </div>
+        </div>
+        @Html.ActionLink("Back To List","List")
+    </fieldset>
+}
+
+

@@ -12,17 +12,19 @@
         <EntityTypeShape EntityType="ECommerceModel.Order" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.OrderDetail" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.Payment" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECommerceModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.UserRole" Width="1.5" PointX="1.5" PointY="11.375" IsExpanded="true" />
-        <AssociationConnector Association="ECommerceModel.FK_Product_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="ECommerceModel.FK_Product_Category" ManuallyRouted="false" />
         <AssociationConnector Association="ECommerceModel.FK_Invoice_Payment" ManuallyRouted="false" />
-        <AssociationConnector Association="ECommerceModel.FK_Invoice_Product" ManuallyRouted="false" />
         <AssociationConnector Association="ECommerceModel.FK_Member_UserRole" ManuallyRouted="false" />
         <AssociationConnector Association="ECommerceModel.FK_Order_Member" ManuallyRouted="false" />
         <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Product" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ECommerceModel.Photo" Width="1.5" PointX="5.25" PointY="10" />
+        <EntityTypeShape EntityType="ECommerceModel.Product" Width="1.5" PointX="3" PointY="1.875" />
+        <AssociationConnector Association="ECommerceModel.FK_Product_Brand" />
+        <AssociationConnector Association="ECommerceModel.FK_Product_Category" />
+        <AssociationConnector Association="ECommerceModel.FK_Invoice_Product" />
+        <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="ECommerceModel.FK_Photo_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

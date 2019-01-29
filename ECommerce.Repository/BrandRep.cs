@@ -23,7 +23,8 @@ namespace ECommerce.Repository
 
         public override Result<Brand> GetById(int id)
         {
-            throw new NotImplementedException();
+            Brand b = db.Brands.SingleOrDefault(t => t.BrandID == id);
+            return result.GetT(b);
         }
 
         public override Result<int> Insert(Brand item)
