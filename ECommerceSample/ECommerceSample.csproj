@@ -131,6 +131,7 @@
     <Content Include="Areas\Admin\Views\Category\EditCategory.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\AddBrand.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\EditBrand.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -209,6 +210,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.Common\ECommerce.Common.csproj">

@@ -21,6 +21,11 @@ namespace ECommerceSample.Areas.Admin.Controllers
         {
             return View(db.Products.ToList());
         }
+
+        public ActionResult AddProduct()
+        {
+            return View();
+        }
        
     }
 }

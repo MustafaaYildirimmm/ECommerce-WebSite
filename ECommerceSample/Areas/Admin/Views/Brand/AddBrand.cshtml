@@ -36,13 +36,12 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Photo, "Photo :", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="img-circle">
-
-                        </div>
                         <input type="file" name="photoPath" id="photoPath" />
                         @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+                <input type="submit" value="Create" class="btn btn-primary col-md-offset-2 col-xs-offset-5 btn-lg" />
             </div>
         </div>
         <div class="panel-footer">

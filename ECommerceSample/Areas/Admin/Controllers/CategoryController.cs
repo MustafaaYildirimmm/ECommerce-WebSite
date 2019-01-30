@@ -46,7 +46,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
         public ActionResult Delete(Guid id)
         {
             result.resultint= cr.Delete(id);
-            return RedirectToAction("List",new { @message=result.resultint.UserMessage});
+            return RedirectToAction("List",new { @message=result.resultint.UserMessage,@id=id});
         }
 
         public ActionResult EditCategory(Guid id)

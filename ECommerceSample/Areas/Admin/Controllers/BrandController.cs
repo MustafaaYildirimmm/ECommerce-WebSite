@@ -7,6 +7,7 @@ using ECommerce.Entity;
 using ECommerce.Common;
 using ECommerce.Repository;
 using ECommerceSample.Areas.Admin.Models.ResultModel;
+using System.IO;
 
 namespace ECommerceSample.Areas.Admin.Controllers
 {
@@ -16,9 +17,13 @@ namespace ECommerceSample.Areas.Admin.Controllers
         ResultInstance<Brand> result = new ResultInstance<Brand>();
 
         // GET: Admin/Brand
-        public ActionResult List()
+        public ActionResult List(string message,int? id)
         {
             result.resultList = br.List();
+            if (message != null)
+                ViewBag.Message = String.Format("{0} nolu markanın silme islemi {1}", id, message);
+            else
+                ViewBag.Message = "";
             return View(result.resultList.ProccessResult);
         }
 
@@ -29,10 +34,10 @@ namespace ECommerceSample.Areas.Admin.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult AddBrand(Brand model,HttpPostedFileBase photoPath)
+        public ActionResult AddBrand(Brand model, HttpPostedFileBase photoPath)
         {
             string photoName = "";
-            if (photoPath!=null&photoPath.ContentLength>0)
+            if (photoPath != null & photoPath.ContentLength > 0)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
                 string path = Server.MapPath("~/Upload/" + photoName);
@@ -52,7 +57,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
             }
             else
                 return View();
-           
+
         }
 
         public ActionResult EditBrand(int id)
@@ -62,9 +67,38 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBrand(Brand model)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBrand(Brand model, HttpPostedFileBase PhotoPath)
         {
+            string PhotoName = model.Photo;
+            string fullPath = Request.MapPath("~/Upload/" + model.Photo);
+            if (PhotoPath!=null)
+            {
+                PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";     
+            }
+            string path = Server.MapPath("~/Upload/" + PhotoName);
+            model.Photo = PhotoName;
 
+            //img deleting
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+
+            //update
+            result.resultint = br.Update(model);
+            if (result.resultint.IsSucceded)
+            {
+                PhotoPath.SaveAs(path);
+                return RedirectToAction("List");
+            }
+            return View(model);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            result.resultint = br.Delete(id);
+            return RedirectToAction("List", new { @m = result.resultint.UserMessage, @id = id });
         }
     }
 }

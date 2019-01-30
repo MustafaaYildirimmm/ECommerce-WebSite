@@ -1,0 +1,69 @@
+﻿
+@model ECommerce.Entity.Product
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Add Product</h2>
+
+@Html.ActionLink("Create Product","AddProduct")
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <h3 class="text-center">
+                    Product Add
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductName, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ProductName, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.ProductName,"", new { @class="alert-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Category.CategoryName, new { @class="control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Category.CategoryName, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class="alert-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Brand.BrandName, new { @class="control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Brand.BrandName, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.Brand.BrandName, "", new {@class="alert-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Price, new { @class="control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Price, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.Price, "", new { @class="alert-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Stock, new { @class="control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Stock, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.Stock, "", new { @class="alert-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <img src="~/Upload/@Model.Photos" alt="Alternate Text" />
+                        @Html.HiddenFor(model=>model.Photos)
+                        <input type="file" name="photoPathfd" id="photoPath"/>
+                    </div>
+                </div>
+                <input type="submit" value="Create" class="btn btn-success col-xs-offset-4 btn-lg" />
+            </div>
+        </div>
+    </div>
+}
+

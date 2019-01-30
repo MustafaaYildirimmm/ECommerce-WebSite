@@ -1,6 +1,7 @@
 ﻿@using ECommerce.Entity;
 @model List<Brand>
 
+
 @{
     ViewBag.Title = "List";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -9,7 +10,10 @@
 <h2 class="text-center">Brand List</h2>
 @Html.ActionLink("Create Brand","AddBrand")
 
-<table class="table table-hover">
+<div class="alert-success">
+    @ViewBag.Message
+</div>
+<table class="table table-hover"style="margin-top:10px">
     <tr class="active">
         <th>
             BrandName:
@@ -22,6 +26,7 @@
         </th>
         <th>Edit & Delete</th>
     </tr>
+   
 
     @foreach (var item in Model)
     {
@@ -30,7 +35,8 @@
                 @item.BrandName
             </td>
             <td>
-                @item.Photo
+                <img src="~/Upload/@item.Photo" class="img-circle" width="100" height="100" />
+                @Html.HiddenFor(t=>item.Photo)
             </td>
             <td>
                 @item.Description
