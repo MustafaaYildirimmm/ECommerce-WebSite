@@ -10,6 +10,8 @@ namespace ECommerce.Repository
 {
     public class ProductRep : DataRepository<Product,int>
     {
+        //Common katmanından tools sınıfını kullanarak db baglantısnı gercekliştirdik.
+        //Ayrica resultProcces ile crud işlemlerinin sonuclarini kod tekrarından kurtularak kontrol edebilecegiz.
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Product> result = new ResultProccess<Product>();
 
@@ -22,7 +24,9 @@ namespace ECommerce.Repository
 
         public override Result<Product> GetById(int id)
         {
-            throw new NotImplementedException();
+            Product p = db.Products.SingleOrDefault(t => t.ProductID == id);
+            return result.GetT(p);
+            
         }
 
         public override Result<int> Insert(Product item)

@@ -1,69 +1,74 @@
-﻿
-@model ECommerce.Entity.Product
+﻿@using ECommerceSample.Areas.Admin.Models.ViewModel
+@using ECommerce.Entity
+@model ProductViewModel
 @{
     ViewBag.Title = "AddProduct";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center">Add Product</h2>
 
-@Html.ActionLink("Create Product","AddProduct")
+<div style="margin-top:50px">
 
-@using (Html.BeginForm())
+</div>
+@Html.ActionLink("Create Product", "AddProduct")
+
+@using (Html.BeginForm("AddProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="container">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <h3 class="text-center">
-                    Product Add
-                </h3>
-            </div>
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ProductName, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.ProductName, new { @class="form-control"})
-                            @Html.ValidationMessageFor(model => model.ProductName,"", new { @class="alert-danger"})
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Category.CategoryName, new { @class="control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Category.CategoryName, new { @class="form-control"})
-                            @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class="alert-danger"})
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Brand.BrandName, new { @class="control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Brand.BrandName, new { @class="form-control"})
-                            @Html.ValidationMessageFor(model => model.Brand.BrandName, "", new {@class="alert-danger"})
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Price, new { @class="control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Price, new { @class="form-control"})
-                            @Html.ValidationMessageFor(model => model.Price, "", new { @class="alert-danger"})
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Stock, new { @class="control-label col-md-2"})
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Stock, new { @class="form-control"})
-                            @Html.ValidationMessageFor(model => model.Stock, "", new { @class="alert-danger"})
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <img src="~/Upload/@Model.Photos" alt="Alternate Text" />
-                        @Html.HiddenFor(model=>model.Photos)
-                        <input type="file" name="photoPathfd" id="photoPath"/>
+    <div class="panel panel-yellow" style="margin:10px 0;">
+        <div class="panel-heading">
+            <h2 class="text-center">
+                Product Add
+            </h2>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Product Name:", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Product.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Product.ProductName, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <input type="submit" value="Create" class="btn btn-success col-xs-offset-4 btn-lg" />
+                <div class="form-group">
+                    @Html.Label("Price:", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Product.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Product.Stock, "Stock:", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Product.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Product.Stock, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Product.Category, "Category Name:", new { @class = "control-text col-md-2  " })
+                    @Html.DropDownListFor(model => model.Product.CategoryID, Model.CategoryList, new { @class = "list-group-item col-md-3" })
+
+                    @Html.LabelFor(model => model.Product.Brand, "Brand Name:", new { @class = "control-text col-md-2" })
+                    @Html.DropDownListFor(model => model.Product.BrandID, Model.BrandList, new { @class = "list-group-item col-md-3" })
+
+                </div>
+                <div class=" form-group">
+                    @Html.LabelFor(model => model.Product.Photos, new { @class = "control-text col-md-2" })
+                    <div class="col-md-10">
+                        <input class="btn btn-default" type="file" name="photoPaths" id="photoPaths" multiple />
+
+                    </div>
+
+                </div>
+                <input type="submit" value="Create" class="btn btn-success col-xs-offset-2 btn-lg " />
+            </div>
+            <div class="panel-footer">
+                <h4 class="text-center">
+                    Mustafa Yıldırım &copy;Tüm Haklari Saklidir.
+                </h4>
             </div>
         </div>
     </div>
+    @Html.ActionLink("Back To List","List")
 }
 

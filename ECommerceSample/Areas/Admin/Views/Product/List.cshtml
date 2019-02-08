@@ -1,5 +1,5 @@
 ﻿@using ECommerce.Entity
-@model IEnumerable<Product>
+@model IEnumerable<ECommerce.Entity.Product>
 
 @{
     ViewBag.Title = "List";
@@ -18,7 +18,7 @@
         <th>Category Name:</th>
         <th>Price:</th>
         <th>Stock:</th>
-        <th>Photo:</th>
+        <th style="min-width:120px;">Photo:</th>
         <th>Edit & Delete</th>
     </tr>
     @foreach (var item in Model)
@@ -29,13 +29,19 @@
             <td>@item.Category.CategoryName</td>
             <td>@item.Price</td>
             <td>@item.Stock</td>
-            <td>@item.Photos.ToString()</td>
             <td>
-                <a href="#" class="btn btn-success">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                @foreach (var photo in item.Photos.ToList())
+                {
+                    <img src="~/Upload/@photo.PhotoName" width="75" height="75" />
+                }
+            </td>
+            <td>
+                <a href="~/Admin/Product/EditProduct/@item.ProductID" class="btn btn-success">Edit</a>
+                <a href="~/Admin/Producy/Delete/@item.ProductID" class="btn btn-danger">Delete</a>
             </td>
         </tr>
     }
 </table>
+
 
 

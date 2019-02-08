@@ -11,6 +11,8 @@ namespace ECommerce.Repository
 {
     public class BrandRep : DataRepository<Brand,int>
     {
+        //Common katmanından tools sınıfını kullanarak db baglantısnı gercekliştirdik.
+        //Ayrica resultProcces ile crud işlemlerinin sonuclarini kod tekrarından kurtularak kontrol edebilecegiz.
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Brand> result = new ResultProccess<Brand>();
 
@@ -20,7 +22,7 @@ namespace ECommerce.Repository
             db.Brands.Remove(b);
             return result.GetResult(db);
         }
-
+        //id e göre brand getirme islemi
         public override Result<Brand> GetById(int id)
         {
             Brand b = db.Brands.SingleOrDefault(t => t.BrandID == id);

@@ -65,7 +65,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
             result.resultT = br.GetById(id);
             return View(result.resultT.ProccessResult);
         }
-
+        //update isleminde photo güncellemesi icin eskisi silinip yenisi eklenerek yapildi.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditBrand(Brand model, HttpPostedFileBase PhotoPath)

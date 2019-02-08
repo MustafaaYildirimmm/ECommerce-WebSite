@@ -94,6 +94,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\SLIDER-WITH MOUSE\css\slider.min.css" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\001.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\002.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\003.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\004.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\005.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\006.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\007.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\008.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\009.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\010.jpg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\icon_chrome.png" />
+    <Content Include="Content\SLIDER-WITH MOUSE\img\spin.svg" />
+    <Content Include="Content\SLIDER-WITH MOUSE\js\jssor.slider-27.5.0.min.js" />
+    <Content Include="Content\SLIDER-WITH MOUSE\standard.html" />
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\blank-page.html" />
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\bootstrap-elements.html" />
     <Content Include="Content\startbootstrap-sb-admin-gh-pages\bootstrap-grid.html" />
@@ -132,6 +147,8 @@
     <Content Include="Areas\Admin\Views\Brand\AddBrand.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\EditBrand.cshtml" />
     <Content Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\DeletePhoto.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\EditProduct.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -149,6 +166,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Models\ResultModel\ResultInstance.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

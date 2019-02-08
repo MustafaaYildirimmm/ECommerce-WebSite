@@ -10,6 +10,8 @@ namespace ECommerce.Repository
 {
     public class CategoryRep : DataRepository<Category,Guid>
     {
+        //Common katmanından tools sınıfını kullanarak db baglantısnı gercekliştirdik.
+        //Ayrica resultProcces ile crud işlemlerinin sonuclarini kod tekrarından kurtularak kontrol edebiliyoruz.
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Category> result = new ResultProccess<Category>();
 

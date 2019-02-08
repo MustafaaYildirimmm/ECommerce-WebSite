@@ -17,6 +17,7 @@ namespace ECommerce.Entity
         public int PhotoId { get; set; }
         public string PhotoName { get; set; }
         public Nullable<int> ProductId { get; set; }
+        public Nullable<bool> IsChecked { get; set; }
     
         public virtual Product Product { get; set; }
     }

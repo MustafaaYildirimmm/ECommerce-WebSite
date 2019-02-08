@@ -78,6 +78,7 @@
           <Property Name="PhotoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PhotoName" Type="nvarchar(max)" />
           <Property Name="ProductId" Type="int" />
+          <Property Name="IsChecked" Type="bit" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -478,6 +479,7 @@
           <Property Name="PhotoName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductId" Type="Int32" />
           <NavigationProperty Name="Product" Relationship="ECommerceModel.FK_Photo_Product" FromRole="Photo" ToRole="Product" />
+          <Property Name="IsChecked" Type="Boolean" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -667,6 +669,7 @@
           <EntitySetMapping Name="Photos">
             <EntityTypeMapping TypeName="ECommerceModel.Photo">
               <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="IsChecked" ColumnName="IsChecked" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="PhotoName" ColumnName="PhotoName" />
                 <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />

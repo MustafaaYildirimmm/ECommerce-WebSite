@@ -9,6 +9,8 @@ namespace ECommerce.Common
 {
     public class Tools
     {
+        //her crud işlemi icin instance almak yerine ilk  kullanılan repository de instance aldıktan sonra 
+        //diğer repository'ler db fieldini kullanacak. Bu sayede uygulamanın yükü buyuk oranda hafiflemiş olacaktır.
         public static ECommerceEntities db = null;
         public static ECommerceEntities GetConnection()
         {

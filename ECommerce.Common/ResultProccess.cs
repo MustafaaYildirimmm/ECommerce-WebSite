@@ -9,6 +9,7 @@ namespace ECommerce.Common
 {
     public class ResultProccess<T>
     {
+        //veritabanı delete,insert ,update işlemleri icin db degişiklerini kaydetme ve kontrol mekanizması kuruldu.
         public Result<int> GetResult(ECommerceEntities db)
         {
             Result<int> result = new Result<int>();
@@ -28,6 +29,8 @@ namespace ECommerce.Common
 
             return result;
         }
+
+        //db den tabloları listeleme işlemi için kontrol mekanizması
 
         public Result<List<T>> GetListResult(List<T> data)
         {
@@ -49,6 +52,8 @@ namespace ECommerce.Common
             return result;
         }
 
+        //id ye göre çekilen data lar için kontrol mekanizması
+
         public Result<T> GetT(T data)
         {
             Result<T> result = new Result<T>();
@@ -65,6 +70,11 @@ namespace ECommerce.Common
                 result.ProccessResult = data;
             }
             return result;
+        }
+
+        public Result<List<Photo>> GetListResult(List<Photo> photoList)
+        {
+            throw new NotImplementedException();
         }
     }
 }
