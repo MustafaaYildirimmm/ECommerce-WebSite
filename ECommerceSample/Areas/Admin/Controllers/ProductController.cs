@@ -84,42 +84,40 @@ namespace ECommerceSample.Areas.Admin.Controllers
             result.resultT = pr.GetById(id);
             return View(result.resultT.ProccessResult);
         }
-
+        string[] photos;
         [HttpPost]
-        public ActionResult EditProduct(Product model)
+        public ActionResult DeletePhoto(int id,string[] photoName)
         {
-            return View();
-        }
-
-        public ActionResult DeletePhoto(Product model,string[] PhotoName)
-        {
-            foreach (var item in PhotoName)
+            for (int i = 0; i < photoName.Length; i++)
             {
-                string fullpath = Request.MapPath("~/Upload/" + item);
-                if (System.IO.File.Exists(fullpath))
+                string path = Request.MapPath("~/Upload/" + photoName[i]);
+                if (System.IO.File.Exists(path))
                 {
-                    System.IO.File.Delete(fullpath);
+                    System.IO.File.Delete(path);
                 }
+                photos[i] = photoName[i];
             }
 
-            return RedirectToAction("EditProduct", new { @id = model.ProductID });
+
+            return RedirectToAction("EditProduct",new { @id=id});
         }
 
         [HttpPost]
-        public ActionResult AddPhoto(Product model,IEnumerable<HttpPostedFileBase> photoPath)
+        public ActionResult EditPhoto(Product model,IEnumerable<HttpPostedFileBase> photoPath)
         {
+            string path="", photoName=""; 
             foreach (var file in photoPath)
             {
                 if (file.ContentLength>0)
                 {
-                    string photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
-                    string path = Server.MapPath("~/Upload/" + photoName);
-                    Photo p = new Photo();
-                    p.PhotoName = photoName;
-                    p.ProductId = model.ProductID;
-                    phRep.Insert(p);
-                    file.SaveAs(path);
+                    photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
+                    path = Server.MapPath("~/Upload/" + photoName);
+                    
+
                 }
+                file.SaveAs(path);
+                phRep.Edit(model, photos);
+
             }
 
             return RedirectToAction("EditProduct", new { @id = model.ProductID });

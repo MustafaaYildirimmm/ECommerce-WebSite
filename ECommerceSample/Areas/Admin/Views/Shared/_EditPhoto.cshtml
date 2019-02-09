@@ -6,12 +6,7 @@
     <legend>Photo Edit</legend>
     @using (Html.BeginForm("DeletePhoto", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        @Html.HiddenFor(m => Model.ProductID)
-        @Html.HiddenFor(m => Model.ProductName)
-        @Html.HiddenFor(m => Model.Stock)
-        @Html.HiddenFor(m => Model.Price)
-
-
+        @Html.HiddenFor(m=>Model.ProductID)
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.Label("Photos:", new { @class = "control-text col-md-2" })
@@ -22,22 +17,18 @@
                         <div class=" float-left" style="margin-left:25px">
                             <img src="~/Upload/@item.PhotoName" class="checkbox" width="200" height="200" />
                             <input type="checkbox" name="PhotoName" value="@item.PhotoName" class="m-auto" />
-                            @Html.HiddenFor(m => item.PhotoName)
-                            @Html.HiddenFor(m => item.PhotoId)
-
                         </div>
                     }
                 </div>
             </div>
             <input type="submit" value="Seçilenleri Kaldır" class="btn btn-default col-md-offset-5" />
-
-
         </div>
 
     }
 
-    @using (Html.BeginForm("AddPhoto","Product",FormMethod.Post,new { enctype="multipart/form-data"}))
+    @using (Html.BeginForm("EditPhoto", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+        @Html.HiddenFor(m=>Model.ProductID)
         <div class="input-group mt-5 col-md-10 col-md-offset-3 ">
             <input type="file" name="photoPath" id="photoPath" multiple class="btn btn-default col-md-3 " style="margin:0px 10px;" />
             <input type="submit" value="Kaydet" class="btn btn-default col-md-4" />
@@ -45,4 +36,5 @@
     }
 
 </fieldset>
+
 

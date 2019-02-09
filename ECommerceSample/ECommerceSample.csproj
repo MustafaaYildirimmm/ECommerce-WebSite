@@ -147,8 +147,8 @@
     <Content Include="Areas\Admin\Views\Brand\AddBrand.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\EditBrand.cshtml" />
     <Content Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\DeletePhoto.cshtml" />
     <Content Include="Areas\Admin\Views\Product\EditProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EditPhoto.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

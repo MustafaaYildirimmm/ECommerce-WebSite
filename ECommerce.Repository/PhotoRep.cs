@@ -17,5 +17,16 @@ namespace ECommerce.Repository
             db.Photos.Add(model);
             return result.GetResult(db);
         }
+
+        public Result<int> Edit(Product model,string[] photo)
+        {
+            Result<int> resultt = new Result<int>();
+            foreach (var item in photo)
+            {
+                Photo p = db.Photos.SingleOrDefault(t => t.ProductId == model.ProductID && item == t.PhotoName);
+                resultt = result.GetResult(db);
+            }
+            return resultt;
+        }
     }
 }
