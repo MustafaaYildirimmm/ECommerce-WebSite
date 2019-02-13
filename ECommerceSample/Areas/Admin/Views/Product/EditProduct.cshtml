@@ -1,9 +1,195 @@
-﻿@model ECommerce.Entity.Product
+﻿@using ECommerceSample.Areas.Admin.Models.ViewModel
+@using ECommerce.Entity
+@model ProductViewModel
 
 @{
+    /**/
+
     ViewBag.Title = "EditProduct";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("~/Areas/Admin/Views/Shared/_EditPhoto.cshtml",Model)
+<style>
+    .div-img img {
+        width: 75px;
+        height: 75px;
+    }
+</style>
 
+
+@using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <fieldset>
+        <legend>
+            <h3 class="text-center">Edit Product</h3>
+        </legend>
+        @Html.HiddenFor(m=>Model.Product.ProductID)
+        <div class="form-horizontal">
+            @Html.Label("Product:", new { @class = "control-label" })
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Product.ProductName, "Product Name:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.Product.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.Product.ProductName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Product.Price, "Price:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.Product.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Product.Stock, "Stock:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.Product.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.Product.Stock, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Product.Category, "Category Name:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => Model.Product.CategoryID, Model.CategoryList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => Model.Product.CategoryID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Product.Brand, "Brand :", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => Model.Product.BrandID, Model.BrandList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => Model.Product.BrandID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <input type="submit" value="Update Product" id="btn" class="btn btn-success col-md-offset-2" />
+            <hr />
+
+        </div>
+        <div class="col-md-2">
+            @Html.Label("Photos:", new { @class = "control-label" })
+        </div>
+
+        <table class="col-md-10 table table-hover">
+            @{
+                int i = 0;
+                foreach (var item in Model.Product.Photos.ToList())
+                {
+                    <tr id="@i">
+
+                        <td>
+                            <div class="col-md-6 ">
+                                <div class="div-img"></div>
+                                <img class="img-update" src="~/Upload/@item.PhotoName" width="75" height="75" style="margin-bottom:5px" />
+                                <input type="file" name="photoPath" id="photoPath" class="input-upload" />
+                                <label class="control-label">@item.PhotoName</label>
+                            </div>
+
+                            <div class=" col-md-offset-10">
+                                <span class="btn btn-success update-file  ">
+                                    <i class="glyphicon glyphicon-open"></i>
+
+                                </span>
+                                <span class="btn btn-warning input-cancel">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </span>
+                                <span class="btn btn-danger input-delete">
+                                    <i class="fa fa-trash-o"></i>
+                                </span>
+                                
+                            </div>
+                            @{
+                                i++;
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+        </table>
+    </fieldset>
+
+    <div class=" text-center">Mustafa Yıldırım &copy; Tüm Haklari Saklidir</div>
+
+
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    var photoList = [];
+
+    function addPhoto(item) {
+
+        var _URL = window.URL || window.webkitURL;
+        var image, file;
+        
+
+        $('#' + item + ' .input-upload').change(function (e) {
+
+            //update butonu tıklanıldıgında ,upload resmi seçildikten sonra önceki resmi gizleme islemi ve cancel olunca yeni resim gizleme islemi
+            $('#' + item + ' .div-img').show();//ekleneck olan img
+            $('#' + item + ' .img-update').hide();//önceki img gizledik
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function () {
+                    src = this.src;
+                    $('#' + item + ' .div-img').html('<img src="' + src + '"></div>');
+                }
+            };
+            image.src = _URL.createObjectURL(file);
+            //photoname lerini bir dizide tutup ajax yöntemi ile controller tarafına gönderdim.
+            photoList.unshift($('#' + item + ' label').text());
+            //$('#' +item + ' .control-label').val(text);
+        });
+
+    //iptal etme islemi
+        $('#' + item + ' .input-cancel').click(function () {
+            $('#' + item + ' .div-img').hide();
+            $('#' + item + ' .img-update').show();
+            $('#' + item + ' #photoPath').val('');
+            photoList = photoList.filter(function (elem) {
+                return elem != $('#' + item + ' label').text();
+            })
+        });
+        
+    };
+
+    $(document).ready(function () {
+        //input file etiketlerinigizledim.
+        $('.input-upload').hide(); 
+    });
+
+    var trList = document.querySelectorAll("tr");
+    trList.forEach(function (ite) {
+        $('#' + ite.id + ' .update-file').on('click', function () {
+            //guncelleme butonuna tıklanıldıgında dosya yöneticisini açma işlemi
+            $('#' + ite.id + ' .input-upload').click();
+            addPhoto(ite.id);
+        });
+
+        $('#' + ite.id + ' .input-delete').on('click', function () {
+            photoList.unshift($('#' + ite.id + ' label').text());
+            $('#' + ite.id).fadeOut(750);
+        });
+    });
+
+    $('#btn').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/EditPhoto",
+            data: {
+                values: photoList
+            },
+            dataType: "html",
+            contentType: 'application/x-www-form-urlencoded',
+        });
+    });
+
+   
+</script>

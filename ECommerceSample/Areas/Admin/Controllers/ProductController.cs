@@ -26,27 +26,49 @@ namespace ECommerceSample.Areas.Admin.Controllers
             return View(pr.List().ProccessResult);
         }
 
-        public ActionResult AddProduct()
+        //edit sayfasında product a göre combobox üzerinde brand ve category gösterimi
+        public void BrandCatList(List<SelectListItem> cat,List<SelectListItem> brand)
         {
-            
-            List<SelectListItem> CatList = new List<SelectListItem>();
-            List<SelectListItem> BrandList = new List<SelectListItem>();
             foreach (Category item in cr.List().ProccessResult)
             {
-                CatList.Add(new SelectListItem
+                cat.Add(new SelectListItem
                 {
-                    Value = item.CategoryID.ToString(),
-                    Text = item.CategoryName
+                    Value=item.CategoryID.ToString(),
+                    Text=item.CategoryName
                 });
             }
             foreach (Brand item in br.List().ProccessResult)
             {
-                BrandList.Add(new SelectListItem
+                brand.Add(new SelectListItem
                 {
                     Value = item.BrandID.ToString(),
                     Text = item.BrandName
                 });
             }
+        }
+
+        public ActionResult AddProduct()
+        {
+            
+            List<SelectListItem> CatList = new List<SelectListItem>();
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            //foreach (Category item in cr.List().ProccessResult)
+            //{
+            //    CatList.Add(new SelectListItem
+            //    {
+            //        Value = item.CategoryID.ToString(),
+            //        Text = item.CategoryName
+            //    });
+            //}
+            //foreach (Brand item in br.List().ProccessResult)
+            //{
+            //    BrandList.Add(new SelectListItem
+            //    {
+            //        Value = item.BrandID.ToString(),
+            //        Text = item.BrandName
+            //    });
+            //}
+            BrandCatList(CatList, BrandList);
             pwm.BrandList = BrandList;
             pwm.CategoryList = CatList;
             pwm.Product = null;
@@ -81,47 +103,63 @@ namespace ECommerceSample.Areas.Admin.Controllers
 
         public ActionResult EditProduct(int id)
         {
-            result.resultT = pr.GetById(id);
-            return View(result.resultT.ProccessResult);
+            List<SelectListItem> CatList = new List<SelectListItem>();
+            List<SelectListItem> BrandList = new List<SelectListItem>();
+            BrandCatList(CatList, BrandList);
+            pwm.CategoryList = CatList;
+            pwm.BrandList = BrandList;
+            pwm.Product = pr.GetById(id).ProccessResult;
+
+            return View(pwm);
         }
-        string[] photos;
+
+        List<string> names = new List<string>();
+        List<string> deletes = new List<string>();
         [HttpPost]
-        public ActionResult DeletePhoto(int id,string[] photoName)
+        public ActionResult EditProduct(ProductViewModel model, IEnumerable<HttpPostedFileBase> photoPath)
         {
-            for (int i = 0; i < photoName.Length; i++)
+          
+            return RedirectToAction("List");
+        }
+        [HttpPost]
+        public JsonResult EditPhoto(string[] values)
+        {
+            foreach (var item in values)
             {
-                string path = Request.MapPath("~/Upload/" + photoName[i]);
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-                photos[i] = photoName[i];
+                names.Add(item);
             }
-
-
-            return RedirectToAction("EditProduct",new { @id=id});
+            return Json("");
         }
 
-        [HttpPost]
-        public ActionResult EditPhoto(Product model,IEnumerable<HttpPostedFileBase> photoPath)
+        [HttpDelete]
+        public JsonResult DeletePhoto(string[] values)
         {
-            string path="", photoName=""; 
-            foreach (var file in photoPath)
+            foreach (var item in values)
             {
-                if (file.ContentLength>0)
-                {
-                    photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
-                    path = Server.MapPath("~/Upload/" + photoName);
+                deletes.Add(item);
+            }
+            return Json("");
+        }
+        //[HttpPost]
+        //public ActionResult EditPhoto(Product model)
+        //{
+        //    string path="", photoName=""; 
+        //    foreach (var file in photoPath)
+        //    {
+        //        if (file.ContentLength>0)
+        //        {
+        //            photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
+        //            path = Server.MapPath("~/Upload/" + photoName);
                     
 
-                }
-                file.SaveAs(path);
-                phRep.Edit(model, photos);
+        //        }
+        //        file.SaveAs(path);
 
-            }
 
-            return RedirectToAction("EditProduct", new { @id = model.ProductID });
-        }
+        //    }
+
+        //    return RedirectToAction("EditProduct", new { @id = model.ProductID });
+        //}
               
     }
 }

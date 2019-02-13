@@ -14,6 +14,7 @@ namespace ECommerce.Repository
         //Ayrica resultProcces ile crud işlemlerinin sonuclarini kod tekrarından kurtularak kontrol edebilecegiz.
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Product> result = new ResultProccess<Product>();
+        ResultProccess<Photo> resultPhoto = new ResultProccess<Photo>();
 
         public override Result<int> Delete(int id)
         {
@@ -51,6 +52,12 @@ namespace ECommerce.Repository
             p.BrandID = item.BrandID;
             p.Price = item.Price;
             return result.GetResult(db);
+        }
+
+        public Result<List<Photo>> PhotoList(int id)
+        {
+            List<Photo> PhotoList = db.Photos.Where(t => t.ProductId == id).ToList();
+            return resultPhoto.GetListResult(PhotoList);
         }
     }
 }

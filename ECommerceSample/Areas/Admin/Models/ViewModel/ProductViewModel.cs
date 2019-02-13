@@ -15,7 +15,5 @@ namespace ECommerceSample.Areas.Admin.Models.ViewModel
         public Product Product{ get; set; }
         public IEnumerable<SelectListItem> BrandList { get; set; }
         public IEnumerable<SelectListItem> CategoryList{ get; set; }
-        public IEnumerable<string> PhotoList { get; set; }
-        public IEnumerable<Product> ProductList { get; set; }
     }
 }

@@ -71,10 +71,5 @@ namespace ECommerce.Common
             }
             return result;
         }
-
-        public Result<List<Photo>> GetListResult(List<Photo> photoList)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
