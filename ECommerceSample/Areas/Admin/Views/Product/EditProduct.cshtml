@@ -23,7 +23,7 @@
         <legend>
             <h3 class="text-center">Edit Product</h3>
         </legend>
-        @Html.HiddenFor(m=>Model.Product.ProductID)
+        @Html.HiddenFor(m => Model.Product.ProductID)
         <div class="form-horizontal">
             @Html.Label("Product:", new { @class = "control-label" })
             <hr />
@@ -65,7 +65,7 @@
             </div>
 
 
-            <input type="submit" value="Update Product" id="btn" class="btn btn-success col-md-offset-2" />
+            
             <hr />
 
         </div>
@@ -79,7 +79,9 @@
                 foreach (var item in Model.Product.Photos.ToList())
                 {
                     <tr id="@i">
-
+                        <td class="hidden">
+                            <input type="checkbox" name="photoNames" id="photoNames" value="@item.PhotoName" class="input-chk"/>
+                        </td>
                         <td>
                             <div class="col-md-6 ">
                                 <div class="div-img"></div>
@@ -99,7 +101,7 @@
                                 <span class="btn btn-danger input-delete">
                                     <i class="fa fa-trash-o"></i>
                                 </span>
-                                
+
                             </div>
                             @{
                                 i++;
@@ -111,7 +113,9 @@
             }
         </table>
     </fieldset>
-
+    <input type="submit" value="Update Product" id="btn" class="btn btn-success col-md-offset-5" />
+    @Html.ActionLink("Back to List", "List","", new { @class = "btn btn-warning" } )
+    <hr />
     <div class=" text-center">Mustafa Yıldırım &copy; Tüm Haklari Saklidir</div>
 
 
@@ -122,15 +126,17 @@
 <script type="text/javascript">
 
     var photoList = [];
+    var deletePhoto = [];
 
     function addPhoto(item) {
 
         var _URL = window.URL || window.webkitURL;
         var image, file;
-        
+
 
         $('#' + item + ' .input-upload').change(function (e) {
-
+            e.preventDefault();
+            $('#' + item + ' .input-chk').prop("checked", true);
             //update butonu tıklanıldıgında ,upload resmi seçildikten sonra önceki resmi gizleme islemi ve cancel olunca yeni resim gizleme islemi
             $('#' + item + ' .div-img').show();//ekleneck olan img
             $('#' + item + ' .img-update').hide();//önceki img gizledik
@@ -147,7 +153,7 @@
             //$('#' +item + ' .control-label').val(text);
         });
 
-    //iptal etme islemi
+        //iptal etme islemi
         $('#' + item + ' .input-cancel').click(function () {
             $('#' + item + ' .div-img').hide();
             $('#' + item + ' .img-update').show();
@@ -155,13 +161,14 @@
             photoList = photoList.filter(function (elem) {
                 return elem != $('#' + item + ' label').text();
             })
+            $('#' + item + ' .input-chk').prop("checked", false);
         });
-        
+
     };
 
     $(document).ready(function () {
         //input file etiketlerinigizledim.
-        $('.input-upload').hide(); 
+        $('.input-upload').hide();
     });
 
     var trList = document.querySelectorAll("tr");
@@ -170,26 +177,29 @@
             //guncelleme butonuna tıklanıldıgında dosya yöneticisini açma işlemi
             $('#' + ite.id + ' .input-upload').click();
             addPhoto(ite.id);
+            
         });
 
         $('#' + ite.id + ' .input-delete').on('click', function () {
-            photoList.unshift($('#' + ite.id + ' label').text());
+            deletePhoto.unshift($('#' + ite.id + ' label').text());
             $('#' + ite.id).fadeOut(750);
         });
     });
 
+    
+
     $('#btn').click(function () {
 
         $.ajax({
-            type: "POST",
-            url: "/Product/EditPhoto",
+            type: "DELETE",
+            url: "/Product/DeletePhoto",
             data: {
-                values: photoList
+                values: deletePhoto
             },
             dataType: "html",
             contentType: 'application/x-www-form-urlencoded',
         });
     });
 
-   
+
 </script>

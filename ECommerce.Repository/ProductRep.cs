@@ -8,7 +8,7 @@ using ECommerce.Common;
 
 namespace ECommerce.Repository
 {
-    public class ProductRep : DataRepository<Product,int>
+    public class ProductRep : DataRepository<Product, int>
     {
         //Common katmanından tools sınıfını kullanarak db baglantısnı gercekliştirdik.
         //Ayrica resultProcces ile crud işlemlerinin sonuclarini kod tekrarından kurtularak kontrol edebilecegiz.
@@ -27,7 +27,7 @@ namespace ECommerce.Repository
         {
             Product p = db.Products.SingleOrDefault(t => t.ProductID == id);
             return result.GetT(p);
-            
+
         }
 
         public override Result<int> Insert(Product item)
@@ -54,10 +54,15 @@ namespace ECommerce.Repository
             return result.GetResult(db);
         }
 
-        public Result<List<Photo>> PhotoList(int id)
+        public Result<int> PhotoUpdate(string names, int id, string guid)
         {
-            List<Photo> PhotoList = db.Photos.Where(t => t.ProductId == id).ToList();
-            return resultPhoto.GetListResult(PhotoList);
+            /*names: modelden güncellenecek olan photolarn isimleri
+             * id:modelden gelen product ın id si
+             * photo:controllerden gelen güncel photoların guid adi
+             */
+            Photo p = db.Photos.SingleOrDefault(t => t.ProductId == id && names == t.PhotoName);
+            p.PhotoName = guid;
+            return resultPhoto.GetResult(db);
         }
     }
 }

@@ -18,15 +18,20 @@ namespace ECommerce.Repository
             return result.GetResult(db);
         }
 
-        public Result<int> Edit(Product model,string[] photo)
+        public Result<int> Edit(Photo model,string[] photo)
         {
             Result<int> resultt = new Result<int>();
             foreach (var item in photo)
             {
-                Photo p = db.Photos.SingleOrDefault(t => t.ProductId == model.ProductID && item == t.PhotoName);
+                Photo p = db.Photos.SingleOrDefault(t => t.ProductId == model.Product.ProductID && item == t.PhotoName);
                 resultt = result.GetResult(db);
             }
             return resultt;
+        }
+
+        public Result<List<Photo>> List()
+        {
+            return result.GetListResult(db.Photos.ToList());
         }
     }
 }
