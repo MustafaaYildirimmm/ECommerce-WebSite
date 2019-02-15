@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "OrderManagement";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <h2 class="text-center">Order Management</h2>
+        <hr />
+        <fieldset>
+            <legend><h3>Order Search</h3></legend>
+           
+            <div class="form-horizontal">
+
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => Model, "Customer Name:", new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.Editor("","form-control")
+                            @Html.ValidationMessageFor(m => Model, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+        </fieldset>
+    </div>
+}
+

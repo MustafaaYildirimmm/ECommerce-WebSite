@@ -1,0 +1,82 @@
+﻿@using ECommerce.Entity
+@model Member
+@{
+    ViewBag.Title = "AddMember";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddMember", "Member", FormMethod.Post,new { enctype="multipart/form-data"}))
+{
+    <fieldset>
+        <legend><h2 class="text-center">Add Member</h2></legend>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, "First Name:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, "Last Name:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone, "Phone:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, "E-mail:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, "Password:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Photo, "Photo:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*<img src=""  class="img-circle" width="75" height="75" id="photo" onchange="show(this)" />*@
+                    <input type="file" name="photoPath" id="photoPath" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, "Address:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                </div>
+            </div>
+            <input type="submit" value="Create" class="col-md-2 col-md-offset-4" />
+
+        </div>
+    </fieldset>
+    @Html.ActionLink("Back To List", "List")
+    <hr />
+    <h5 class="text-center">Mustafa Yıldırım &copy; Tüm Haklari Saklidir</h5>
+}
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    function show(input) {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#photo').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+
+        }
+    }
+</script>*@

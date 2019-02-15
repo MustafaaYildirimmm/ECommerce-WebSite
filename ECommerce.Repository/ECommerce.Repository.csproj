@@ -51,9 +51,10 @@
     <Compile Include="BrandRep.cs" />
     <Compile Include="CategoryRep.cs" />
     <Compile Include="DataRepository.cs" />
-    <Compile Include="PhotoRep.cs" />
+    <Compile Include="MemberRep.cs" />
     <Compile Include="ProductRep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleRep.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

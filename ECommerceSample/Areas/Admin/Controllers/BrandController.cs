@@ -17,7 +17,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
         ResultInstance<Brand> result = new ResultInstance<Brand>();
 
         // GET: Admin/Brand
-        public ActionResult List(string message,int? id)
+        public ActionResult List(string message, int? id)
         {
             result.resultList = br.List();
             if (message != null)
@@ -36,6 +36,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddBrand(Brand model, HttpPostedFileBase photoPath)
         {
+            ViewBag.FileName = photoPath.FileName;
             string photoName = "";
             if (photoPath != null & photoPath.ContentLength > 0)
             {
@@ -70,29 +71,29 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditBrand(Brand model, HttpPostedFileBase PhotoPath)
         {
+
             string PhotoName = model.Photo;
             string fullPath = Request.MapPath("~/Upload/" + model.Photo);
-            if (PhotoPath!=null)
-            {
-                PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";     
-            }
-            string path = Server.MapPath("~/Upload/" + PhotoName);
-            model.Photo = PhotoName;
-
-            //img deleting
-            if (System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Delete(fullPath);
-            }
 
             //update
-            result.resultint = br.Update(model);
-            if (result.resultint.IsSucceded)
+            
+
+            if (PhotoPath != null)
             {
+                PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+
+                string path = Server.MapPath("~/Upload/" + PhotoName);
+                model.Photo = PhotoName;
+
+                //img deleting
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
                 PhotoPath.SaveAs(path);
-                return RedirectToAction("List");
             }
-            return View(model);
+            result.resultint = br.Update(model);
+            return RedirectToAction("List");
         }
 
         public ActionResult Delete(int id)

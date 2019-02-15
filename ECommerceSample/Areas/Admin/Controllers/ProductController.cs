@@ -15,8 +15,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
     {
         ProductRep pr = new ProductRep();
         CategoryRep cr = new CategoryRep();
-        BrandRep br = new BrandRep();
-        PhotoRep phRep = new PhotoRep();
+        BrandRep br = new BrandRep(); 
         ResultInstance<Product> result = new ResultInstance<Product>();
         ProductViewModel pwm = new ProductViewModel();
         // GET: Admin/Product
@@ -25,7 +24,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
             return View(pr.List().ProccessResult);
         }
 
-        //edit sayfasında product a göre combobox üzerinde brand ve category gösterimi
+        //edit  ve add sayfasında product a göre combobox üzerinde brand ve category gösterimi
         public void BrandCatList(List<SelectListItem> cat, List<SelectListItem> brand)
         {
             foreach (Category item in cr.List().ProccessResult)
@@ -77,7 +76,6 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductViewModel model, IEnumerable<HttpPostedFileBase> photoPaths)
         {
-            result.resultint = pr.Insert(model.Product);
             foreach (var file in photoPaths)
             {
                 if (file.ContentLength > 0)
@@ -86,9 +84,12 @@ namespace ECommerceSample.Areas.Admin.Controllers
                     string path = Server.MapPath("~/Upload/" + photoName);
                     Photo p = new Photo();
                     p.PhotoName = photoName;
-                    p.ProductId = model.Product.ProductID;
-                    phRep.Insert(p);
-                    file.SaveAs(path);
+                    model.Product.Photos.Add(p);
+                    result.resultint=pr.Insert(model.Product);
+                    if (result.resultint.IsSucceded)
+                    {
+                        file.SaveAs(path);
+                    }
                 }
             }
             if (result.resultint.IsSucceded)

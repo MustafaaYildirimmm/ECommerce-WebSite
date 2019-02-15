@@ -65,7 +65,7 @@
             </div>
 
 
-            
+
             <hr />
 
         </div>
@@ -80,7 +80,7 @@
                 {
                     <tr id="@i">
                         <td class="hidden">
-                            <input type="checkbox" name="photoNames" id="photoNames" value="@item.PhotoName" class="input-chk"/>
+                            <input type="checkbox" name="photoNames" id="photoNames" value="@item.PhotoName" class="input-chk" />
                         </td>
                         <td>
                             <div class="col-md-6 ">
@@ -114,15 +114,13 @@
         </table>
     </fieldset>
     <input type="submit" value="Update Product" id="btn" class="btn btn-success col-md-offset-5" />
-    @Html.ActionLink("Back to List", "List","", new { @class = "btn btn-warning" } )
+    @Html.ActionLink("Back to List", "List", "", new { @class = "btn btn-warning" })
     <hr />
     <div class=" text-center">Mustafa Yıldırım &copy; Tüm Haklari Saklidir</div>
 
 
-
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 <script type="text/javascript">
 
     var photoList = [];
@@ -177,7 +175,7 @@
             //guncelleme butonuna tıklanıldıgında dosya yöneticisini açma işlemi
             $('#' + ite.id + ' .input-upload').click();
             addPhoto(ite.id);
-            
+
         });
 
         $('#' + ite.id + ' .input-delete').on('click', function () {
@@ -186,7 +184,7 @@
         });
     });
 
-    
+
 
     $('#btn').click(function () {
 
@@ -200,6 +198,5 @@
             contentType: 'application/x-www-form-urlencoded',
         });
     });
-
-
+           
 </script>

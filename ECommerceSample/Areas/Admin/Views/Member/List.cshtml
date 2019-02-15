@@ -1,0 +1,59 @@
+﻿@using ECommerce.Entity
+@model IEnumerable<Member>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    <fielset>
+        <legend><h2 class="text-center">Member List</h2></legend>
+
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>First Name:</th>
+                    <th>Last Name:</th>
+                    <th>E-mail</th>
+                    <th>Role Name:</th>
+                    <th>Address:</th>
+                    <th>Photo:</th>
+                    <th>Edit & Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m=>item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>item.UserRole.RoleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m=>item.Address)
+                        </td>
+                        <td>
+                            <img src="~/Upload/@item.Photo" class="img-circle" width="75" height="75" />
+                        </td>
+                        <td>
+                            <a href="~/Admin/Member/EditMember/@item.UserID" class="btn btn-success">Edit</a>
+                            <a href="~/Admin/Member/Delete/@item.UserID" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+       
+    </fielset>
+}

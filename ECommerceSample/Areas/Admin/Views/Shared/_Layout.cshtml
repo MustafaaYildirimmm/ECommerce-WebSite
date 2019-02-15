@@ -11,7 +11,7 @@
     <!-- Bootstrap Core CSS -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">*@
+   
     <link href="~/Content/startbootstrap-sb-admin-gh-pages/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="~/Content/startbootstrap-sb-admin-gh-pages/css/sb-admin.css" rel="stylesheet">
@@ -25,6 +25,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!--alert dialog box links-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 </head>
 
 <body>
@@ -182,13 +187,27 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#order"><i class="glyphicon glyphicon-list-alt"></i> Orders <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="order" class="collapse">
+                            <li>
+                                <a href="#">Order Management</a>
+                            </li>
+                            <li>
+                                <a href="#">Order Panel</a>
+                            </li>
+                            <li>
+                                <a href="~/Admin/Category/List">Invoice List</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#user"><i class="glyphicon glyphicon-user"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="user" class="collapse">
                             <li>
-                                <a href="#">Add Admin User</a>
+                                <a href="~/Admin/Member/AddMember">Add Admin User</a>
                             </li>
                             <li>
-                                <a href="~/Admin/Category/List">List All Users</a>
+                                <a href="~/Admin/Member/List">List All Users</a>
                             </li>
                         </ul>
                     </li>
@@ -198,7 +217,7 @@
         </nav>
         <div id="page-wrapper">
             <div class="container-fluid">
-                @RenderBody();
+                @RenderBody()
             </div>
             <!-- /.container-fluid -->
         </div>

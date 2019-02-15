@@ -39,10 +39,12 @@
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleID" Type="int" />
           <Property Name="Address" Type="ntext" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -314,6 +316,8 @@
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Member_UserRole" FromRole="Member" ToRole="UserRole" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Member" FromRole="Member" ToRole="Order" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -596,6 +600,8 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="ECommerceModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
