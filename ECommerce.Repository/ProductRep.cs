@@ -19,7 +19,9 @@ namespace ECommerce.Repository
         public override Result<int> Delete(int id)
         {
             Product p = db.Products.SingleOrDefault(t => t.ProductID == id);
+            List<Photo> pList = db.Photos.Where(t => t.ProductId == id).ToList();
             db.Products.Remove(p);
+            db.Photos.RemoveRange(pList);
             return result.GetResult(db);
         }
 
@@ -63,6 +65,11 @@ namespace ECommerce.Repository
             Photo p = db.Photos.SingleOrDefault(t => t.ProductId == id && names == t.PhotoName);
             p.PhotoName = guid;
             return resultPhoto.GetResult(db);
+        }
+
+        public override Result<List<Product>> GetLatestObj(int Quantity)
+        {
+            return result.GetListResult(db.Products.OrderByDescending(t => t.ProductID).Take(Quantity).ToList());
         }
     }
 }

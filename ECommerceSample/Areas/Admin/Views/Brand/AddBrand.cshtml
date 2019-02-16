@@ -6,9 +6,10 @@
 }
 
 
-@using (Html.BeginForm("AddBrand","Brand",FormMethod.Post,new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("AddBrand", "Brand", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="panel panel-green" style="margin-top:50px;">
         <div class="panel-heading">
             <h3 class="text-center">

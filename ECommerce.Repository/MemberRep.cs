@@ -25,6 +25,11 @@ namespace ECommerce.Repository
             return result.GetT(db.Members.SingleOrDefault(m => m.UserID == id));
         }
 
+        public override Result<List<Member>> GetLatestObj(int Quantity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Result<int> Insert(Member item)
         {
             db.Members.Add(item);

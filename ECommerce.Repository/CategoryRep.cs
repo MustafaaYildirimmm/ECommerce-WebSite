@@ -28,6 +28,11 @@ namespace ECommerce.Repository
             return result.GetT(c);
         }
 
+        public override Result<List<Category>> GetLatestObj(int Quantity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Result<int> Insert(Category item)
         {
             db.Categories.Add(item);

@@ -8,10 +8,11 @@
 <h2>EditMember</h2>
 
 
-@using (Html.BeginForm("EditMember", "Member", FormMethod.Post,new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("EditMember", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m=>m.Photo)
+    @Html.HiddenFor(m => m.Photo)
     <div class="form-horizontal">
         <h4>Member</h4>
         <hr />
@@ -58,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Photo, "Photo:", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <img src="~/Upload/@Model.Photo"  class="img-circle" width="75" height="75" id="photo" onchange="show(this)" />
+                <img src="~/Upload/@Model.Photo" class="img-circle" width="75" height="75" id="photo" onchange="show(this)" />
                 <input type="file" name="photoPath" id="photoPath" />
             </div>
         </div>

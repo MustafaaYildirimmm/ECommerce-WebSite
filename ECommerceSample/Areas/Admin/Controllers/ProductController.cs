@@ -15,7 +15,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
     {
         ProductRep pr = new ProductRep();
         CategoryRep cr = new CategoryRep();
-        BrandRep br = new BrandRep(); 
+        BrandRep br = new BrandRep();
         ResultInstance<Product> result = new ResultInstance<Product>();
         ProductViewModel pwm = new ProductViewModel();
         // GET: Admin/Product
@@ -76,27 +76,31 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductViewModel model, IEnumerable<HttpPostedFileBase> photoPaths)
         {
-            foreach (var file in photoPaths)
+            if (photoPaths != null)
             {
-                if (file.ContentLength > 0)
+                foreach (var file in photoPaths)
                 {
-                    string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                    string path = Server.MapPath("~/Upload/" + photoName);
-                    Photo p = new Photo();
-                    p.PhotoName = photoName;
-                    model.Product.Photos.Add(p);
-                    result.resultint=pr.Insert(model.Product);
-                    if (result.resultint.IsSucceded)
+                    if (file.ContentLength > 0)
                     {
-                        file.SaveAs(path);
+                        string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                        string path = Server.MapPath("~/Upload/" + photoName);
+                        Photo p = new Photo();
+                        p.PhotoName = photoName;
+                        model.Product.Photos.Add(p);
+                        result.resultint = pr.Insert(model.Product);
+                        if (result.resultint.IsSucceded)
+                        {
+                            file.SaveAs(path);
+                        }
                     }
                 }
             }
+
             if (result.resultint.IsSucceded)
             {
                 return RedirectToAction("List");
             }
-            return View(model);
+            return View();
 
         }
 
@@ -113,83 +117,44 @@ namespace ECommerceSample.Areas.Admin.Controllers
             return View(pwm);
         }
 
-        
+
         [HttpPost]
         public JsonResult DeletePhoto(string[] values)
         {
             return Json("asd");
         }
         [HttpPost]
-        public ActionResult EditProduct(ProductViewModel model,string[] photoNames, List<HttpPostedFileBase> photoPath)
+        public ActionResult EditProduct(ProductViewModel model, string[] photoNames, List<HttpPostedFileBase> photoPath)
         {
             /*
              */
+            //update photo
             string photoName = "";
             string fullPath = "";
-            List<string> guid = new List<string>();
-            int i = 0;
-            //foreach (var file in photoPath)
-            //{
-            //    if (file.ContentLength>0||file!=null)
-            //    {
-            //        photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
-            //        string path = Server.MapPath("~/Upload/" + photoName);
-            //        guid.Add(photoName);
-            //        file.SaveAs(path);
-            //    }
-
-            //}
-
             for (int k = 0; k < photoPath.Count(); k++)
             {
                 if (photoPath[k] != null)
                 {
                     photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
                     string path = Server.MapPath("~/Upload/" + photoName);
-                    guid.Add(photoName);
                     photoPath[k].SaveAs(path);
-                }
-            }
-
-            if (photoNames!=null)
-            {
-                foreach (var name in photoNames)
-                {
-                    pr.PhotoUpdate(name, model.Product.ProductID, guid[i]);
-                    i++;
-                    fullPath = Request.MapPath("~/Upload/" + name);
+                    pr.PhotoUpdate(photoNames[k], model.Product.ProductID, photoName);
+                    fullPath = Request.MapPath("~/Upload/" + photoNames[k]);
                     if (System.IO.File.Exists(fullPath))
                     {
                         System.IO.File.Delete(fullPath);
                     }
                 }
             }
-            
-
+            pr.Update(model.Product);
             return RedirectToAction("List");
         }
-        
 
-        //[HttpPost]
-        //public ActionResult EditPhoto(Product model)
-        //{
-        //    string path="", photoName=""; 
-        //    foreach (var file in photoPath)
-        //    {
-        //        if (file.ContentLength>0)
-        //        {
-        //            photoName = Guid.NewGuid().ToString().Replace("-", "")+".jpg";
-        //            path = Server.MapPath("~/Upload/" + photoName);
-
-
-        //        }
-        //        file.SaveAs(path);
-
-
-        //    }
-
-        //    return RedirectToAction("EditProduct", new { @id = model.ProductID });
-        //}
+        public ActionResult Delete(int id)
+        {
+            result.resultint = pr.Delete(id);
+            return RedirectToAction("List");
+        }
 
     }
 }

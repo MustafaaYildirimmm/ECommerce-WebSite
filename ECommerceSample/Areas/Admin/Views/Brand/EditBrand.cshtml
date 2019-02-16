@@ -9,6 +9,7 @@
 @using (Html.BeginForm("EditBrand", "Brand", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.BrandID)
     @Html.HiddenFor(model => model.Photo)
     <fieldset>
@@ -54,7 +55,7 @@
                 $('#photo').attr('src', e.target.result);
             }
             filerdr.readAsDataURL(input.files[0]);
-           
+
         }
     }
 

@@ -18,5 +18,6 @@ namespace ECommerce.Repository
         public abstract Result<int> Update(T item);
         public abstract Result<T> GetById(M id);
         public abstract Result<List<T>> List();
+        public abstract Result<List<T>> GetLatestObj(int Quantity);
     }
 }

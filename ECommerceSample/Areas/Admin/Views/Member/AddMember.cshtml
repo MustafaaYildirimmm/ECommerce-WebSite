@@ -5,8 +5,9 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("AddMember", "Member", FormMethod.Post,new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("AddMember", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.ValidationSummary(true)
     <fieldset>
         <legend><h2 class="text-center">Add Member</h2></legend>
 
@@ -68,15 +69,15 @@
 }
 
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script type="text/javascript">
-    function show(input) {
-        if (input.files && input.files[0]) {
-            var filerdr = new FileReader();
-            filerdr.onload = function (e) {
-                $('#photo').attr('src', e.target.result);
-            }
-            filerdr.readAsDataURL(input.files[0]);
+    <script type="text/javascript">
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#photo').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
 
+            }
         }
-    }
-</script>*@
+    </script>*@

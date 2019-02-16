@@ -1,0 +1,45 @@
+﻿@using ECommerce.Entity
+@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+<div class="center_title_bar">PRODUCTS</div>
+@foreach (var item in Model)
+{
+    <div class="prod_box">
+        <div class="top_prod_box"></div>
+        <div class="center_prod_box">
+            <div class="product_title">
+                <a href="details.html">@item.ProductName</a>
+            </div>
+            <div class="product_img">
+                <a href="details.html">
+                    <img src="~/Upload/@item.Photos" width="99" height="99" />
+                </a>
+            </div>
+            <div class="prod_price">
+                <span class="price">@item.Price ₺</span>
+            </div>
+        </div>
+        <div class="bottom_prod_box"></div>
+        <div class="prod_details_tab">
+            <a href="#" title="header=[Add to cart] body=[&nbsp;] fade=[on]">
+                <img src="~/Content/electronix/images/cart.gif" alt="" border="0" class="left_bt" />
+            </a>
+            <a href="#" title="header=[Specials] body=[&nbsp;] fade=[on]">
+                <img src="~/Content/electronix/images/favs.gif" alt="" border="0" class="left_bt" />
+            </a>
+            <a href="#" title="header=[Gifts] body=[&nbsp;] fade=[on]">
+                <img src="~/Content/electronix/images/favorites.gif" alt="" border="0" class="left_bt" />
+            </a>
+            <a href="details.html" class="prod_details">details</a>
+        </div>
+    </div>
+
+}
+
+

@@ -6,10 +6,10 @@
 }
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    @Html.ValidationSummary(true)
     <div class="bg-info" style="margin-top:10px;padding-left:10px">@ViewBag.Message</div>
 
     <div class="panel panel-red" style="margin-top:25px">
@@ -47,15 +47,15 @@
             Mustafa Yıldırım &copy;@DateTime.Now.Year Her Hakkı Saklıdır.
         </div>
     </div>
-   
+
 }
 
 <div>
-    @Html.ActionLink("Back to List", "List",new { @class="btn btn-default"})
+    @Html.ActionLink("Back to List", "List", new { @class = "btn btn-default" })
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
- 
+

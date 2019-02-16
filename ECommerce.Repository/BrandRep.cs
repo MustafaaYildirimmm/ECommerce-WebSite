@@ -29,6 +29,11 @@ namespace ECommerce.Repository
             return result.GetT(b);
         }
 
+        public override Result<List<Brand>> GetLatestObj(int Quantity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Result<int> Insert(Brand item)
         {
             db.Brands.Add(item);

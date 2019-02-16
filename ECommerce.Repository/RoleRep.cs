@@ -22,6 +22,11 @@ namespace ECommerce.Repository
             throw new NotImplementedException();
         }
 
+        public override Result<List<UserRole>> GetLatestObj(int Quantity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Result<int> Insert(UserRole item)
         {
             throw new NotImplementedException();
