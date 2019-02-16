@@ -227,6 +227,7 @@
     <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Models\PhotoModel\PhotoSave.cs" />
     <Compile Include="Areas\Admin\Models\ResultModel\ResultInstance.cs" />
     <Compile Include="Areas\Admin\Models\ViewModel\MemberViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModel\ProductViewModel.cs" />

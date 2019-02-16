@@ -50,9 +50,6 @@ namespace ECommerceSample.Areas.Admin.Controllers
 
             List<SelectListItem> CatList = new List<SelectListItem>();
             List<SelectListItem> BrandList = new List<SelectListItem>();
-
-            //asagıdaki brand list ve cat listleri modele gndermek icin yaptım.ayrıca edit action da kullanmam gerektigi ve daha temizkod yazmak icin yukarda brandlist adında method seklinde olusturdum.
-
             //foreach (Category item in cr.List().ProccessResult)
             //{
             //    CatList.Add(new SelectListItem
@@ -69,8 +66,6 @@ namespace ECommerceSample.Areas.Admin.Controllers
             //        Text = item.BrandName
             //    });
             //}
-
-
             BrandCatList(CatList, BrandList);
             pwm.BrandList = BrandList;
             pwm.CategoryList = CatList;
@@ -79,23 +74,28 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddProduct(ProductViewModel model, List<HttpPostedFileBase> photoPaths)
+        public ActionResult AddProduct(ProductViewModel model, IEnumerable<HttpPostedFileBase> photoPaths)
         {
-            //1 den fazla img ekleme islemi
-            //photoPath null gelme durumu oldugu icin foreach kullanamadım.
-            for (int i = 0; i < photoPaths.Count(); i++)
+            if (photoPaths != null)
             {
-                if (photoPaths[i] != null)
+                foreach (var file in photoPaths)
                 {
-                    string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                    string path = Server.MapPath("~/Upload/" + photoName);
-                    Photo p = new Photo();
-                    p.PhotoName = photoName;
-                    model.Product.Photos.Add(p);
-                    photoPaths[i].SaveAs(path);
+                    if (file.ContentLength > 0)
+                    {
+                        string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                        string path = Server.MapPath("~/Upload/" + photoName);
+                        Photo p = new Photo();
+                        p.PhotoName = photoName;
+                        model.Product.Photos.Add(p);
+                        result.resultint = pr.Insert(model.Product);
+                        if (result.resultint.IsSucceded)
+                        {
+                            file.SaveAs(path);
+                        }
+                    }
                 }
             }
-            result.resultint = pr.Insert(model.Product);
+
             if (result.resultint.IsSucceded)
             {
                 return RedirectToAction("List");
@@ -118,11 +118,11 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
 
-        //[HttpPost]
-        //public JsonResult DeletePhoto(string[] values)
-        //{
-        //    return Json("asd");
-        //}
+        [HttpPost]
+        public JsonResult DeletePhoto(string[] values)
+        {
+            return Json("asd");
+        }
         [HttpPost]
         public ActionResult EditProduct(ProductViewModel model, string[] photoNames, List<HttpPostedFileBase> photoPath)
         {

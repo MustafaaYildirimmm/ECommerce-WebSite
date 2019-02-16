@@ -7,6 +7,8 @@ using ECommerce.Entity;
 using ECommerce.Common;
 using ECommerce.Repository;
 using ECommerceSample.Areas.Admin.Models.ResultModel;
+using System.IO;
+using ECommerceSample.Areas.Admin.Models.PhotoModel;
 
 namespace ECommerceSample.Areas.Admin.Controllers
 {
@@ -14,6 +16,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
     {
         BrandRep br = new BrandRep();
         ResultInstance<Brand> result = new ResultInstance<Brand>();
+        PhotoSave pht = new PhotoSave();
         // GET: Admin/Brand
         public ActionResult List(string message, int? id)
         {
@@ -34,13 +37,15 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddBrand(Brand model, HttpPostedFileBase photoPath)
         {
-            string photoName ="";
-            if (photoPath != null)
-            {
-                photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                string path = Server.MapPath("~/Upload/" + photoName);
-                photoPath.SaveAs(path);
-            }
+            ViewBag.FileName = photoPath.FileName;
+            string photoName = model.Photo;
+            //if (photoPath != null & photoPath.ContentLength > 0)
+            //{
+            //    photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+            //    string path = Server.MapPath("~/Upload/" + photoName);
+            //    photoPath.SaveAs(path);
+            //}
+            pht.AddPhoto(photoName, photoPath);
             model.Photo = photoName;
             if (ModelState.IsValid)
             {
@@ -63,49 +68,39 @@ namespace ECommerceSample.Areas.Admin.Controllers
             result.resultT = br.GetById(id);
             return View(result.resultT.ProccessResult);
         }
-        
+        //update isleminde photo güncellemesi icin eskisi silinip yenisi eklenerek yapildi.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditBrand(Brand model, HttpPostedFileBase PhotoPath)
         {
-            //update isleminde photo güncellemesi icin eskisi silinip yenisi eklenerek yapildi.
-            string PhotoName = model.Photo;
-            string name = model.Photo;
-            string fullPath = Request.MapPath("~/Upload/" + model.Photo);
 
-            //update img
-            if (PhotoPath != null)
-            {
-                PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                string path = Server.MapPath("~/Upload/" + PhotoName);
-                //img deleting
-                if (System.IO.File.Exists(fullPath))
-                {
-                    System.IO.File.Delete(fullPath);
-                }
-                PhotoPath.SaveAs(path);
-            }
-            model.Photo = PhotoName;
+            string name = model.Photo;
+            //string fullPath = Request.MapPath("~/Upload/" + model.Photo);
+
+            //update
+            //if (PhotoPath != null)
+            //{
+            //    PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+
+            //    string path = Server.MapPath("~/Upload/" + PhotoName);
+            //    model.Photo = PhotoName;
+
+            //    //img deleting
+            //    if (System.IO.File.Exists(fullPath))
+            //    {
+            //        System.IO.File.Delete(fullPath);
+            //    }
+            //    PhotoPath.SaveAs(path);
+            //}
+            pht.UpdatePhoto(name, PhotoPath);
+            model.Photo = name;
             result.resultint = br.Update(model);
             return RedirectToAction("List");
         }
 
         public ActionResult Delete(int id)
         {
-            //img silme islemi için modelden gelen id ye göre brand 
-            //getbyid meathodu ile proccessresulttan photo name ini aldık.daha sonra img silme işlemini tamamladım.
-            string photoName = br.GetById(id).ProccessResult.Photo;
-
             result.resultint = br.Delete(id);
-            if (result.resultint.IsSucceded)
-            {
-                string path = Request.MapPath("~/Upload/" + photoName);
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-               
-            }
             return RedirectToAction("List", new { @m = result.resultint.UserMessage, @id = id });
         }
     }

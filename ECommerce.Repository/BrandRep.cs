@@ -17,7 +17,7 @@ namespace ECommerce.Repository
         ResultProccess<Brand> result = new ResultProccess<Brand>();
 
         public override Result<int> Delete(int id)
-        {            
+        {
             Brand b = db.Brands.SingleOrDefault(t => t.BrandID == id);
             db.Brands.Remove(b);
             return result.GetResult(db);
