@@ -16,7 +16,6 @@ namespace ECommerceSample.Areas.Admin.Controllers
     {
         BrandRep br = new BrandRep();
         ResultInstance<Brand> result = new ResultInstance<Brand>();
-        PhotoSave pht = new PhotoSave();
         // GET: Admin/Brand
         public ActionResult List(string message, int? id)
         {
@@ -37,15 +36,13 @@ namespace ECommerceSample.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AddBrand(Brand model, HttpPostedFileBase photoPath)
         {
-            ViewBag.FileName = photoPath.FileName;
-            string photoName = model.Photo;
-            //if (photoPath != null & photoPath.ContentLength > 0)
-            //{
-            //    photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-            //    string path = Server.MapPath("~/Upload/" + photoName);
-            //    photoPath.SaveAs(path);
-            //}
-            pht.AddPhoto(photoName, photoPath);
+            string photoName = "";
+            if (photoPath!=null)
+            {
+                photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                string path = Server.MapPath("~/Upload/" + photoName);
+                photoPath.SaveAs(path);
+            }
             model.Photo = photoName;
             if (ModelState.IsValid)
             {
@@ -74,28 +71,32 @@ namespace ECommerceSample.Areas.Admin.Controllers
         public ActionResult EditBrand(Brand model, HttpPostedFileBase PhotoPath)
         {
 
-            string name = model.Photo;
-            //string fullPath = Request.MapPath("~/Upload/" + model.Photo);
+            string PhotoName = model.Photo;
+            string path = "";
+            string fullPath = Request.MapPath("~/Upload/" + model.Photo);
 
             //update
-            //if (PhotoPath != null)
-            //{
-            //    PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+            if (PhotoPath != null)
+            {
+                PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
 
-            //    string path = Server.MapPath("~/Upload/" + PhotoName);
-            //    model.Photo = PhotoName;
+                path = Server.MapPath("~/Upload/" + PhotoName);
+                model.Photo = PhotoName;
 
-            //    //img deleting
-            //    if (System.IO.File.Exists(fullPath))
-            //    {
-            //        System.IO.File.Delete(fullPath);
-            //    }
-            //    PhotoPath.SaveAs(path);
-            //}
-            pht.UpdatePhoto(name, PhotoPath);
-            model.Photo = name;
+                //img deleting
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+            }
+            model.Photo = PhotoName;
             result.resultint = br.Update(model);
-            return RedirectToAction("List");
+            if (result.resultint.IsSucceded)
+            {
+                PhotoPath.SaveAs(path);
+                return RedirectToAction("List");
+            }
+            return View(model);
         }
 
         public ActionResult Delete(int id)

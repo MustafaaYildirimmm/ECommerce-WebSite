@@ -74,28 +74,21 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddProduct(ProductViewModel model, IEnumerable<HttpPostedFileBase> photoPaths)
+        public ActionResult AddProduct(ProductViewModel model, List<HttpPostedFileBase> photoPaths)
         {
-            if (photoPaths != null)
+            for (int i = 0; i < photoPaths.Count(); i++)
             {
-                foreach (var file in photoPaths)
+                if ( photoPaths[i] != null)
                 {
-                    if (file.ContentLength > 0)
-                    {
-                        string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                        string path = Server.MapPath("~/Upload/" + photoName);
-                        Photo p = new Photo();
-                        p.PhotoName = photoName;
-                        model.Product.Photos.Add(p);
-                        result.resultint = pr.Insert(model.Product);
-                        if (result.resultint.IsSucceded)
-                        {
-                            file.SaveAs(path);
-                        }
-                    }
+                    string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                    string path = Server.MapPath("~/Upload/" + photoName);
+                    Photo p = new Photo();
+                    p.PhotoName = photoName;
+                    model.Product.Photos.Add(p);
+                    photoPaths[i].SaveAs(path);
                 }
             }
-
+            result.resultint = pr.Insert(model.Product);
             if (result.resultint.IsSucceded)
             {
                 return RedirectToAction("List");
@@ -118,11 +111,11 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
 
-        [HttpPost]
-        public JsonResult DeletePhoto(string[] values)
-        {
-            return Json("asd");
-        }
+        //[HttpPost]
+        //public JsonResult DeletePhoto(string[] values)
+        //{
+        //    return Json("asd");
+        //}
         [HttpPost]
         public ActionResult EditProduct(ProductViewModel model, string[] photoNames, List<HttpPostedFileBase> photoPath)
         {
@@ -131,6 +124,8 @@ namespace ECommerceSample.Areas.Admin.Controllers
             //update photo
             string photoName = "";
             string fullPath = "";
+            int i = 0;
+            //i degiskeni; photoPath her zman product ın photo sayısı uzunlugunda gelir.Ama photoNAmes güncelleneck olan photo sayısı kadar gelecegi icin  i degiskeni kullanıldı.
             for (int k = 0; k < photoPath.Count(); k++)
             {
                 if (photoPath[k] != null)
@@ -138,12 +133,13 @@ namespace ECommerceSample.Areas.Admin.Controllers
                     photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
                     string path = Server.MapPath("~/Upload/" + photoName);
                     photoPath[k].SaveAs(path);
-                    pr.PhotoUpdate(photoNames[k], model.Product.ProductID, photoName);
-                    fullPath = Request.MapPath("~/Upload/" + photoNames[k]);
+                    pr.PhotoUpdate(photoNames[i], model.Product.ProductID, photoName);
+                    fullPath = Request.MapPath("~/Upload/" + photoNames[i]);
                     if (System.IO.File.Exists(fullPath))
                     {
                         System.IO.File.Delete(fullPath);
                     }
+                    i++;
                 }
             }
             pr.Update(model.Product);
