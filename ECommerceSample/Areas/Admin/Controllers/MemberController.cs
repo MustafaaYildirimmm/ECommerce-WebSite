@@ -13,8 +13,10 @@ namespace ECommerceSample.Areas.Admin.Controllers
 {
     public class MemberController : Controller
     {
+        MemberViewModel mvm = new MemberViewModel();
         MemberRep mr = new MemberRep();
         ResultInstance<Member> result = new ResultInstance<Member>();
+        
 
         // GET: Admin/Member
         public ActionResult List()
@@ -22,25 +24,41 @@ namespace ECommerceSample.Areas.Admin.Controllers
             result.resultList = mr.List();
             return View(result.resultList.ProccessResult);
         }
+        //roleName lerin modele gönderilerek kayıt isleminin yapılması icin metot olusturdum.
+        private void RoleList(List<SelectListItem> roleList,int id)
+        {
+            foreach (var item in mr.RoleList().ProccessResult)
+            {
+                roleList.Add(new SelectListItem
+                {
+                    Value = item.RoleID.ToString(),
+                    Text = item.RoleName,
+                    Selected=(item.RoleID==id)
+                });
+            }
 
+        }
         public ActionResult AddMember()
         {
-            return View();
+            List<SelectListItem> roleList = new List<SelectListItem>();
+            RoleList(roleList,-1);
+            mvm.roles = roleList;
+            mvm.members = null;
+            return View(mvm);
         }
 
         [HttpPost]
-        public ActionResult AddMember(Member model, HttpPostedFileBase photoPath)
+        public ActionResult AddMember(MemberViewModel model, HttpPostedFileBase photoPath)
         {
             string photoName = "";
             if (photoPath != null)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
                 string path = Server.MapPath("~/Upload/" + photoName);
-                model.Photo = photoName;
+                model.members.Photo = photoName;
                 photoPath.SaveAs(path);
             }
-            model.RoleID = 1;
-            result.resultint = mr.Insert(model);
+            result.resultint = mr.Insert(model.members);
             if (result.resultint.IsSucceded)
             {
                 return RedirectToAction("List");
@@ -50,29 +68,37 @@ namespace ECommerceSample.Areas.Admin.Controllers
 
         public ActionResult EditMember(int id)
         {
+            List<SelectListItem> roleList = new List<SelectListItem>();
             result.resultT = mr.GetById(id);
-            return View(result.resultT.ProccessResult);
+            int roleId = result.resultT.ProccessResult.UserRole.RoleID;
+            RoleList(roleList,roleId);
+            mvm.members = result.resultT.ProccessResult;
+            mvm.roles = roleList;
+            if (result.resultT.IsSucceded)
+            {
+                return View(mvm);
+            }
+            return RedirectToAction("List");
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult EditMember(Member model, HttpPostedFileBase photoPath)
+        public ActionResult EditMember(MemberViewModel model, HttpPostedFileBase photoPath)
         {
-            model.RoleID = 1;
-            string photoName = model.Photo;
-            string fullpath = Request.MapPath("~/Upload/" + model.Photo);
+            string photoName = model.members.Photo;
             if (photoPath != null)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
                 string path = Server.MapPath("~/Upload/" + photoName);
+                string fullpath = Request.MapPath("~/Upload/" + model.members.Photo);
                 if (System.IO.File.Exists(fullpath))
                 {
                     System.IO.File.Delete(fullpath);
                 }
-                model.Photo = photoName;
+                model.members.Photo = photoName;
                 photoPath.SaveAs(path);
             }
-            result.resultint = mr.Update(model);
+            result.resultint = mr.Update(model.members);
             return RedirectToAction("List");
         }
     }

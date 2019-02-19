@@ -48,19 +48,13 @@
             <div id="menu_tab">
                 <div class="left_menu_corner"></div>
                 <ul class="menu">
-                    <li><a href="#" class="nav1"> Home</a></li>
+                    <li><a href="~/Home/Index" class="nav1"> Home</a></li>
                     <li class="divider"></li>
-                    <li><a href="#" class="nav2">Products</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" class="nav3">Specials</a></li>
+                    <li><a href="~/Home/ListAll" class="nav2">Products</a></li>
                     <li class="divider"></li>
                     <li><a href="#" class="nav4">My account</a></li>
                     <li class="divider"></li>
                     <li><a href="#" class="nav4">Sign Up</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" class="nav5">Shipping</a></li>
-                    <li class="divider"></li>
-                    <li><a href="contact.html" class="nav6">Contact Us</a></li>
                     <li class="divider"></li>
                     <li class="currencies">
                         Currencies
@@ -84,11 +78,11 @@
                         {
                             if (i % 2 == 0)
                             {
-                                <li class="odd"><a href="#">@item.CategoryName</a></li>
+                                <li class="odd"><a href="~/Home/ListByCategory/@item.CategoryID">@item.CategoryName</a></li>
                             }
                             else
                             {
-                                <li class="even"><a href="#">@item.CategoryName</a></li>
+                                <li class="even"><a href="~/Home/ListByCategory/@item.CategoryID">@item.CategoryName</a></li>
                             }
                             i++;
                         }
@@ -100,7 +94,7 @@
             <div class="center_content">
                 @RenderBody()
             </div>
-            
+
             <!-- end of center content -->
             <div class="right_content">
                 <div class="shopping_cart">
@@ -109,18 +103,22 @@
                         3 items <br />
                         <span class="border_cart"></span> Total: <span class="price">350$</span>
                     </div>
-                    <div class="cart_icon"><a href="#" title="header=[Checkout] body=[&nbsp;] fade=[on]"><img src="images/shoppingcart.png" alt="" width="48" height="48" border="0" /></a></div>
+                    <div class="cart_icon"><a href="#" title="header=[Checkout] body=[&nbsp;] fade=[on]"><img src="~/Content/electronix/images/shoppingcart.png" alt="" width="48" height="48" border="0" /></a></div>
                 </div>
                 @{
                     ProductRep pr = new ProductRep();
                     foreach (var item in pr.GetLatestObj(1).ProccessResult)
                     {
-                        <div class="title_box">What’s new</div>
-                        <div class="border_box">
-                            <div class="product_title"><a href="details.html">@item.ProductName</a></div>
-                            <div class="product_img"><a href="details.html"><img src="images/p2.gif" alt="" border="0" /></a></div>
-                            <div class="prod_price"><span class="price">@item.Price ₺</span></div>
-                        </div>
+                        foreach (var img in item.Photos.ToList())
+                        {
+                            <div class="title_box">What’s new</div>
+                            <div class="border_box">
+                                <div class="product_title"><a href="details.html">@item.ProductName</a></div>
+                                <div class="product_img"><a href="details.html"><img src="~/Upload/@img.PhotoName" alt="" border="0" width="75" height="75"/></a></div>
+                                <div class="prod_price"><span class="price">@item.Price ₺</span></div>
+                            </div>
+                        }
+
                     }
 
 
@@ -136,11 +134,11 @@
                         {
                             if (k % 2 == 0)
                             {
-                                <li class="odd"><a href="#">@item.BrandName</a></li>
+                                <li class="odd"><a href="~/Home/ListByBrand/@item.BrandID">@item.BrandName</a></li>
                             }
                             else
                             {
-                                <li class="even"><a href="#">@item.BrandName</a></li>
+                                <li class="even"><a href="~/Home/ListByBrand/@item.BrandID">@item.BrandName</a></li>
                             }
                             k++;
 
@@ -154,7 +152,7 @@
         <div class="footer" style="padding-bottom:10px">
             <div class="left_footer"> <img src="~/Content/electronix/images/footer_logo.png" alt="" width="170" height="49" /> </div>
             <div class="center_footer" style="width:300px">
-               Mustafa Yıldırım &copy; @DateTime.Now.Year Tüm Haklari Saklidir<br />
+                Mustafa Yıldırım &copy; @DateTime.Now.Year Tüm Haklari Saklidir<br />
                 <a href="http://csscreme.com"><img src="~/Content/electronix/images/csscreme.jpg" alt="csscreme" border="0" /></a><br />
                 <img src="~/Content/electronix/images/payment.gif" alt="" />
             </div>

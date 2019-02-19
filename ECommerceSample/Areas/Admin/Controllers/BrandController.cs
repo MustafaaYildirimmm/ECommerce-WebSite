@@ -8,7 +8,7 @@ using ECommerce.Common;
 using ECommerce.Repository;
 using ECommerceSample.Areas.Admin.Models.ResultModel;
 using System.IO;
-using ECommerceSample.Areas.Admin.Models.PhotoModel;
+
 
 namespace ECommerceSample.Areas.Admin.Controllers
 {

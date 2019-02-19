@@ -227,7 +227,6 @@
     <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
-    <Compile Include="Areas\Admin\Models\PhotoModel\PhotoSave.cs" />
     <Compile Include="Areas\Admin\Models\ResultModel\ResultInstance.cs" />
     <Compile Include="Areas\Admin\Models\ViewModel\MemberViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModel\ProductViewModel.cs" />
@@ -284,6 +283,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_ProductList.cshtml" />
+    <Content Include="Views\Home\ListByCategory.cshtml" />
+    <Content Include="Views\Home\ListByBrand.cshtml" />
+    <Content Include="Views\Home\ListAll.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

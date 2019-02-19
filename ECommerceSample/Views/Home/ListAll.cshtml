@@ -2,12 +2,10 @@
 @model IEnumerable<Product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ListAll";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-<h2>Latest Product</h2>
+<h2>List All Product</h2>
+
 @Html.Partial("~/Views/Shared/_ProductList.cshtml")
-
-
-

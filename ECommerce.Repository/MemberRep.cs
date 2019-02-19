@@ -12,6 +12,7 @@ namespace ECommerce.Repository
     {
         private static ECommerceEntities db = Tools.GetConnection();
         ResultProccess<Member> result = new ResultProccess<Member>();
+        ResultProccess<UserRole> roleResult = new ResultProccess<UserRole>();
 
         public override Result<int> Delete(int id)
         {
@@ -53,5 +54,10 @@ namespace ECommerce.Repository
             m.Photo = item.Photo;
             return result.GetResult(db);
         }
+
+        public Result<List<UserRole>> RoleList()
+        {
+            return roleResult.GetListResult(db.UserRoles.ToList());
+        } 
     }
 }

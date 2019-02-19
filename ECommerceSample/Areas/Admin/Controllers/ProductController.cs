@@ -25,14 +25,15 @@ namespace ECommerceSample.Areas.Admin.Controllers
         }
 
         //edit  ve add sayfasında product a göre combobox üzerinde brand ve category gösterimi
-        public void BrandCatList(List<SelectListItem> cat, List<SelectListItem> brand)
+        public void BrandCatList(List<SelectListItem> cat, List<SelectListItem> brand,Guid c,int b)
         {
             foreach (Category item in cr.List().ProccessResult)
             {
                 cat.Add(new SelectListItem
                 {
                     Value = item.CategoryID.ToString(),
-                    Text = item.CategoryName
+                    Text = item.CategoryName,
+                    Selected=(item.CategoryID==c)?true:false,
                 });
             }
             foreach (Brand item in br.List().ProccessResult)
@@ -40,7 +41,8 @@ namespace ECommerceSample.Areas.Admin.Controllers
                 brand.Add(new SelectListItem
                 {
                     Value = item.BrandID.ToString(),
-                    Text = item.BrandName
+                    Text = item.BrandName,
+                    Selected=(item.BrandID==b)?true:false,
                 });
             }
         }
@@ -66,7 +68,8 @@ namespace ECommerceSample.Areas.Admin.Controllers
             //        Text = item.BrandName
             //    });
             //}
-            BrandCatList(CatList, BrandList);
+            Guid g=new Guid();
+            BrandCatList(CatList, BrandList,g,-1);
             pwm.BrandList = BrandList;
             pwm.CategoryList = CatList;
             pwm.Product = null;
@@ -102,11 +105,10 @@ namespace ECommerceSample.Areas.Admin.Controllers
         {
             List<SelectListItem> CatList = new List<SelectListItem>();
             List<SelectListItem> BrandList = new List<SelectListItem>();
-            BrandCatList(CatList, BrandList);
+            pwm.Product = pr.GetById(id).ProccessResult;
+            BrandCatList(CatList, BrandList,(Guid)pwm.Product.CategoryID,(int)pwm.Product.BrandID);
             pwm.CategoryList = CatList;
             pwm.BrandList = BrandList;
-            pwm.Product = pr.GetById(id).ProccessResult;
-
             return View(pwm);
         }
 
