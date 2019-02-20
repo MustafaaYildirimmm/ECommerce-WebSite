@@ -231,6 +231,7 @@
     <Compile Include="Areas\Admin\Models\ViewModel\MemberViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModel\ProductViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -288,6 +289,7 @@
     <Content Include="Views\Home\ListByBrand.cshtml" />
     <Content Include="Views\Home\ListAll.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Order\DetailList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

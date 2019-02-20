@@ -13,7 +13,7 @@
                 <a href="details.html">@item.ProductName</a>
             </div>
             <div class="product_img">
-                <a href="details.html">
+                <a href="~/Home/Details/@item.ProductID">
                     @{
                         foreach (var img in item.Photos.ToList())
                         {
@@ -33,15 +33,9 @@
         </div>
         <div class="bottom_prod_box"></div>
         <div class="prod_details_tab">
-            <a href="#" title="header=[Add to cart] body=[&nbsp;] fade=[on]">
+            <a href="~/Order/Add/@item.ProductID" title="header=[Add to cart] body=[&nbsp;] fade=[on]">
                 <img src="~/Content/electronix/images/cart.gif" alt="" border="0" class="left_bt" />
-            </a>
-            <a href="#" title="header=[Specials] body=[&nbsp;] fade=[on]">
-                <img src="~/Content/electronix/images/favs.gif" alt="" border="0" class="left_bt" />
-            </a>
-            <a href="#" title="header=[Gifts] body=[&nbsp;] fade=[on]">
-                <img src="~/Content/electronix/images/favorites.gif" alt="" border="0" class="left_bt" />
-            </a>
+            </a>        
             <a href="~/Home/Details/@item.ProductID" class="prod_details">details</a>
         </div>
     </div>

@@ -31,7 +31,8 @@ namespace ECommerceSample.Controllers
         }
         public ActionResult Details(int id)
         {
-            return View(pr.GetById(id).ProccessResult);
+            Product p = pr.GetById(id).ProccessResult;
+            return View(p);
         }
     }
 }

@@ -7,28 +7,46 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-<h2>Details</h2>
+<div class="center_content">
+    <div class="center_title_bar">@Model.ProductName</div>
+    <div class="prod_box_big">
+        <div class="top_prod_box_big"></div>
+        <div class="center_prod_box_big">
 
-@using (Html.BeginForm())
-{
-    <div class="form-horizontal">
-        <ul>
-            @foreach (var img in Model.Photos)
-            {
-                <li>
-                    <img src="~/Upload/@img.PhotoName" width="45" height="45" />
-                </li>
-                if (img.IsChecked == true)
+            <div class="product_img_big">
+                @foreach (var item in Model.Photos)
                 {
-                    <ul>
-                        <li>
-                            <img src="~/Upload/@img.PhotoName" alt="Alternate Text" width="200" height="200" />
-                        </li>
-                    </ul>
-                        
-                   
+                    if (item.IsChecked == true)
+                    {
+                        <a href="javascript:popImage('~/Upload/@item.PhotoName','Some Title')" title="header=[Zoom] body=[&nbsp;] fade=[on]">
+                            <img src="~/Upload/@item.PhotoName" width="110" height="110" alt="" border="0" />
+                        </a>
+                    }
+
                 }
-            }
-        </ul>
+                <div class="thumbs">
+                    @foreach (var item in Model.Photos)
+                    {
+                        <a href="#" title="header=[Thumb1] body=[&nbsp;] fade=[on]"><img src="~/Upload/@item.PhotoName" alt="" border="0" width="35" height="35"/></a>
+
+                    }
+                </div>
+
+            </div>
+            <div class="details_big_box">
+                <div class="product_title_big">@Model.ProductName</div>
+                <div class="specifications">
+                    Stock: <span class="blue">@Model.Stock</span><br />
+                    Garantie: <span class="blue">24 Month</span><br />
+                    Category: <span class="blue">@Model.Category.CategoryName</span><br />
+                    Brand: <span class="blue">@Model.Brand.BrandName</span><br />
+                </div>
+                <div class="prod_price_big"<span class="price">@String.Format("{0:0,0.00}",Model.Price) ₺</span></div>
+                <a href="~/Order/Add" class="addtocart">add to cart</a>
+            </div>
+        </div>
+        <div class="bottom_prod_box_big"></div>
     </div>
-}
+
+</div>
+

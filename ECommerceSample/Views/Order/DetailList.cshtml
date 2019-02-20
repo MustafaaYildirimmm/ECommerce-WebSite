@@ -1,0 +1,41 @@
+﻿@model ECommerce.Entity.OrderDetail
+
+@{
+    ViewBag.Title = "DetailList";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Detail List</h2>
+
+@using (Html.BeginForm())
+{
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Order Id</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </tbody>
+        <thead>
+            <tr>
+                <td>@Model.OrderID</td>
+                <td>@Model.Product.ProductName</td>
+                <td>@Model.Quantity</td>
+                <td>@Model.Price</td>
+                <td><a href="~/Order/Delete" class="btn btn-warning" >Delete</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total Price:@String.Format("{0:0,0.00}", @Model.Order.TotalPrice) ₺</td>
+            </tr>
+        </thead>
+    </table>
+
+    <input type="submit" class="btn btn-primary" value="Contunie To Pay" />
+}
