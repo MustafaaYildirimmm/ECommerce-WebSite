@@ -1,4 +1,5 @@
-﻿@model ECommerce.Entity.OrderDetail
+﻿@using ECommerce.Entity
+@model IEnumerable<OrderDetail>
 
 @{
     ViewBag.Title = "DetailList";
@@ -7,35 +8,42 @@
 
 <h2>Detail List</h2>
 
-@using (Html.BeginForm())
-{
-    <table class="table table-hover">
-        <tbody>
-            <tr>
-                <th>Order Id</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
-        </tbody>
-        <thead>
-            <tr>
-                <td>@Model.OrderID</td>
-                <td>@Model.Product.ProductName</td>
-                <td>@Model.Quantity</td>
-                <td>@Model.Price</td>
-                <td><a href="~/Order/Delete" class="btn btn-warning" >Delete</a></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total Price:@String.Format("{0:0,0.00}", @Model.Order.TotalPrice) ₺</td>
-            </tr>
-        </thead>
-    </table>
 
-    <input type="submit" class="btn btn-primary" value="Contunie To Pay" />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Order Id</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderID</td>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td><a href="~/Order/Delete/@item.ProductID" class="btn btn-warning">Delete</a></td>
+            </tr>
+        }
+
+        <tr>
+
+            <td colspan="4" style="text-align:right">
+                @{
+                    Order o = (Order)Session["Order"];
+                    <span>Total Price:@String.Format("{0:0,0.00}", o.TotalPrice.Value) ₺</span>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@using (Html.BeginForm("Pay", "Payment",FormMethod.Get))
+{
+    <input type="submit" class="btn btn-success" value="Contunie To Pay" />
 }

@@ -1,0 +1,69 @@
+﻿@using ECommerceSample.Models.VM
+@model LoginVM
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+<div class="row" style="margin-top:10px">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="text-center">Login</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @ViewBag.Message
+                    <div class="input-group">
+                        <div class="input-group-addon ">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </div>
+                        @Html.TextBoxFor(m => m.Email, new { @placeholder = "Enter Your Email Address", @class = "form-control" })
+                    </div>
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </span>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock"></i>
+                        </div>
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Enter Your Password", @class = "form-control " })
+                    </div>
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </span>
+                    <br />
+
+                    <div class="row" style="margin:10px">
+                        <input type="submit" class="btn btn-success col-md-12" value="Login" />
+                    </div>
+                }
+
+            </div>
+            <div class="panel-footer text-center">
+                Mustafa Yıldırım &copy; Tüm Haklari Saklidir.
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-6">
+        <fieldset>
+            <legend><h3 class="text-center"> Register</h3></legend>
+            <a href="#" class="btn btn-success btn-lg col-md-12 " style="margin-bottom:10px;background-color:dimgrey ">Üye Olmadan Devam Et</a>
+            <a href="#" class="btn btn-success col-md-12" style="margin-bottom:10px;background-color:dimgrey">Hızlı Uyelik</a>
+            <a href="#" class="btn btn-primary col-md-12" style="margin-bottom:10px"><i class="fab fa-facebook-f"></i> | Facebook İle Giriş</a>
+            <a href="#" class="btn btn-info col-md-12"><i class="fab fa-twitter"></i> |Twitter İle Giriş</a>
+
+        </fieldset>
+    </div>
+
+</div>
+
+

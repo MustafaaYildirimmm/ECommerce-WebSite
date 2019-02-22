@@ -15,12 +15,12 @@ namespace ECommerce.Entity
     public partial class Invoice
     {
         public int InvoiceID { get; set; }
-        public Nullable<int> ProductID { get; set; }
+        public Nullable<int> OrderId { get; set; }
         public Nullable<int> PaymentTypeID { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
         public string Address { get; set; }
     
+        public virtual Order Order { get; set; }
         public virtual Payment Payment { get; set; }
-        public virtual Product Product { get; set; }
     }
 }

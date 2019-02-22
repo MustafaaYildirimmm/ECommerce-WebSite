@@ -59,5 +59,10 @@ namespace ECommerce.Repository
         {
             return roleResult.GetListResult(db.UserRoles.ToList());
         } 
+        public Result<Member> LoginMb(string Email,string Password)
+        {
+            Member mem = db.Members.SingleOrDefault(m => m.Password == Password && m.Email == Email);
+            return result.GetT(mem);
+        }
     }
 }

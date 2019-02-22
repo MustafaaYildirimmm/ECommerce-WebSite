@@ -1,0 +1,32 @@
+﻿@model ECommerce.Entity.Invoice
+
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Pay</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Invoice</legend>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m=>m.Address,"Address :", new { @class="control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Address, new { @class="form-control"})
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @class="text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m=>m.Payment,"Payment Type:",new { @class="control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownList("PaymentTypes", ViewBag.Skills as SelectList,new { @class="form-control"})
+                    @Html.ValidationMessageFor(m=>m.PaymentTypeID,"",new { @class=""})
+                </div>
+            </div>
+            <input type="submit" value="Pay" class="btn btn-success col-md-offset-2" />
+        </div>
+    </fieldset>
+}

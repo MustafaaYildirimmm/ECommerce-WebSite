@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="~/Content/electronix/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="iecss.css" />
     <![endif]-->
@@ -64,100 +65,8 @@
             </div>
             <!-- end of menu tab -->
             <div class="crumb_navigation"> Navigation: <span class="current">Home</span> </div>
-            <div class="left_content">
-                <div class="title_box">Categories</div>
-                <ul class="left_menu">
-                    @{
-                        CategoryRep cr = new CategoryRep();
-                        int i = 0;
-                        foreach (var item in cr.List().ProccessResult)
-                        {
-                            if (i % 2 == 0)
-                            {
-                                <li class="odd"><a href="~/Home/ListByCategory/@item.CategoryID">@item.CategoryName</a></li>
-                            }
-                            else
-                            {
-                                <li class="even"><a href="~/Home/ListByCategory/@item.CategoryID">@item.CategoryName</a></li>
-                            }
-                            i++;
-                        }
-
-                    }
-                </ul>
-            </div>
-            <!-- end of left content -->
-            <div class="center_content">
                 @RenderBody()
-            </div>
 
-            <!-- end of center content -->
-            <div class="right_content">
-                <div class="shopping_cart">
-                    <div class="cart_title">Shopping cart</div>
-                    <div class="cart_details">
-
-                        @{
-                            Order ord = (Order)Session["Order"];
-                            int? adet = 0;
-                            decimal? totalPrice = 0;
-                            if (ord != null)
-                            {
-                                foreach (var item in ord.OrderDetails)
-                                {
-                                    adet += item.Quantity;
-                                    totalPrice += item.Price;
-                                }
-                            }
-                        }
-                        @Html.Label(adet.ToString())
-                        <br />
-                        <span class="border_cart"></span> Total: <span class="price">@String.Format("{0:0,0.00}", totalPrice.Value) ₺</span>
-                    </div>
-                    <div class="cart_icon"><a href="~/Order/DetailList" title="header=[Checkout] body=[&nbsp;] fade=[on]"><img src="~/Content/electronix/images/shoppingcart.png" alt="" width="48" height="48" border="0" /></a></div>
-                </div>
-                @{
-                    ProductRep pr = new ProductRep();
-                    foreach (var item in pr.GetLatestObj(1).ProccessResult)
-                    {
-                        foreach (var img in item.Photos.ToList())
-                        {
-                            <div class="title_box">What’s new</div>
-                            <div class="border_box">
-                                <div class="product_title"><a href="details.html">@item.ProductName</a></div>
-                                <div class="product_img"><a href="details.html"><img src="~/Upload/@img.PhotoName" alt="" border="0" width="75" height="75" /></a></div>
-                                <div class="prod_price"><span class="price">@item.Price ₺</span></div>
-                            </div>
-                        }
-
-                    }
-
-
-                }
-                <div class="title_box">Manufacturers</div>
-                <ul class="left_menu">
-
-
-                    @{
-                        int k = 0;
-                        BrandRep br = new BrandRep();
-                        foreach (var item in br.List().ProccessResult)
-                        {
-                            if (k % 2 == 0)
-                            {
-                                <li class="odd"><a href="~/Home/ListByBrand/@item.BrandID">@item.BrandName</a></li>
-                            }
-                            else
-                            {
-                                <li class="even"><a href="~/Home/ListByBrand/@item.BrandID">@item.BrandName</a></li>
-                            }
-                            k++;
-
-                        }
-                    }
-                </ul>
-            </div>
-            <!-- end of right content -->
         </div>
         <!-- end of main content -->
         <div class="footer" style="padding-bottom:10px">

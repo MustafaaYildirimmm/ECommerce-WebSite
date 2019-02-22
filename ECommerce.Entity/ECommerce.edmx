@@ -27,7 +27,7 @@
             <PropertyRef Name="InvoiceID" />
           </Key>
           <Property Name="InvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductID" Type="int" />
+          <Property Name="OrderId" Type="int" />
           <Property Name="PaymentTypeID" Type="int" />
           <Property Name="PaymentDate" Type="datetime" />
           <Property Name="Address" Type="ntext" />
@@ -45,6 +45,7 @@
           <Property Name="RoleID" Type="int" />
           <Property Name="Address" Type="ntext" />
           <Property Name="Photo" Type="nvarchar(max)" />
+          <Property Name="IsLogin" Type="bit" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -110,6 +111,18 @@
           <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Invoice_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Invoice_Payment">
           <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
@@ -119,18 +132,6 @@
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="PaymentTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Invoice_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -231,12 +232,12 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Invoice_Payment" Association="Self.FK_Invoice_Payment">
-            <End Role="Payment" EntitySet="Payment" />
+          <AssociationSet Name="FK_Invoice_Order" Association="Self.FK_Invoice_Order">
+            <End Role="Order" EntitySet="Order" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Product" Association="Self.FK_Invoice_Product">
-            <End Role="Product" EntitySet="Product" />
+          <AssociationSet Name="FK_Invoice_Payment" Association="Self.FK_Invoice_Payment">
+            <End Role="Payment" EntitySet="Payment" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_Member_UserRole" Association="Self.FK_Member_UserRole">
@@ -291,18 +292,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="ECommerceModel.FK_Product_Category" FromRole="Category" ToRole="Product" />
         </EntityType>
-        <EntityType Name="Invoice">
-          <Key>
-            <PropertyRef Name="InvoiceID" />
-          </Key>
-          <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="PaymentTypeID" Type="Int32" />
-          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Payment" Relationship="Self.FK_Invoice_Payment" FromRole="Invoice" ToRole="Payment" />
-          <NavigationProperty Name="Product" Relationship="ECommerceModel.FK_Invoice_Product" FromRole="Invoice" ToRole="Product" />
-        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="UserID" />
@@ -318,6 +307,7 @@
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsLogin" Type="Boolean" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -330,6 +320,7 @@
           <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Member" Relationship="Self.FK_Order_Member" FromRole="Order" ToRole="Member" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Order" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -349,7 +340,7 @@
           </Key>
           <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PaymentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoice_Payment" FromRole="Payment" ToRole="Invoice" />
+          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Payment" FromRole="Payment" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -369,18 +360,6 @@
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Member_UserRole" FromRole="UserRole" ToRole="Member" />
         </EntityType>
-        <Association Name="FK_Invoice_Payment">
-          <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payment">
-              <PropertyRef Name="PaymentID" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="PaymentTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Member_UserRole">
           <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
           <End Role="Member" Type="Self.Member" Multiplicity="*" />
@@ -420,17 +399,12 @@
         <EntityContainer Name="ECommerceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brands" EntityType="Self.Brand" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
           <EntitySet Name="Members" EntityType="Self.Member" />
           <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
-          <AssociationSet Name="FK_Invoice_Payment" Association="Self.FK_Invoice_Payment">
-            <End Role="Payment" EntitySet="Payments" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
           <AssociationSet Name="FK_Member_UserRole" Association="Self.FK_Member_UserRole">
             <End Role="UserRole" EntitySet="UserRoles" />
             <End Role="Member" EntitySet="Members" />
@@ -454,10 +428,6 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Product" Association="ECommerceModel.FK_Invoice_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderDetail_Product" Association="ECommerceModel.FK_OrderDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
@@ -465,6 +435,15 @@
           <AssociationSet Name="FK_Photo_Product" Association="ECommerceModel.FK_Photo_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
+          <EntitySet Name="Invoices" EntityType="ECommerceModel.Invoice" />
+          <AssociationSet Name="FK_Invoice_Order" Association="ECommerceModel.FK_Invoice_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Payment" Association="ECommerceModel.FK_Invoice_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="GetProductList_Result">
@@ -497,7 +476,6 @@
           <Property Name="CategoryID" Type="Guid" />
           <NavigationProperty Name="Brand" Relationship="ECommerceModel.FK_Product_Brand" FromRole="Product" ToRole="Brand" />
           <NavigationProperty Name="Category" Relationship="ECommerceModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Product" FromRole="Product" ToRole="Invoice" />
           <NavigationProperty Name="OrderDetails" Relationship="ECommerceModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="Photos" Relationship="ECommerceModel.FK_Photo_Product" FromRole="Product" ToRole="Photo" />
         </EntityType>
@@ -525,18 +503,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Invoice_Product">
-          <End Type="ECommerceModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderDetail_Product">
           <End Type="ECommerceModel.Product" Role="Product" Multiplicity="1" />
           <End Type="ECommerceModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
@@ -558,6 +524,42 @@
             </Principal>
             <Dependent Role="Photo">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="PaymentTypeID" Type="Int32" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
+          <NavigationProperty Name="Payment" Relationship="ECommerceModel.FK_Invoice_Payment" FromRole="Invoice" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK_Invoice_Order">
+          <End Type="ECommerceModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Payment">
+          <End Type="ECommerceModel.Payment" Role="Payment" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="PaymentTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -586,20 +588,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Invoices">
-            <EntityTypeMapping TypeName="ECommerceModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="ECommerceModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -691,6 +683,17 @@
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="ECommerceModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

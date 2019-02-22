@@ -51,9 +51,11 @@
     <Compile Include="BrandRep.cs" />
     <Compile Include="CategoryRep.cs" />
     <Compile Include="DataRepository.cs" />
+    <Compile Include="InvoiceRep.cs" />
     <Compile Include="MemberRep.cs" />
     <Compile Include="OrderDetailRep.cs" />
     <Compile Include="OrderREp.cs" />
+    <Compile Include="PaymentRep.cs" />
     <Compile Include="ProductRep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
