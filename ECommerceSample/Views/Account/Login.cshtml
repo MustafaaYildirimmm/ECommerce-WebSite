@@ -35,7 +35,7 @@
                         @Html.PasswordFor(m => m.Password, new { @placeholder = "Enter Your Password", @class = "form-control " })
                     </div>
                     <span class="text-danger">
-                        @Html.ValidationMessageFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Password,"",new { @class="text-danger"})
                     </span>
                     <br />
 

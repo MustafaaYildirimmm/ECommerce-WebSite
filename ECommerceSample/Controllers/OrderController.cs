@@ -61,27 +61,28 @@ namespace ECommerceSample.Controllers
             Order sepetim = (Order)Session["Order"];
             decimal? totalPrice = 0;
             OrderREp or = new OrderREp();
-            if (sepetim.OrderDetails!=null)
+           
+            if (sepetim!=null)
             {
-                foreach (var item in sepetim.OrderDetails)
+                if (sepetim.OrderDetails != null)
                 {
-                    totalPrice += item.Price;
+                    foreach (var item in sepetim.OrderDetails)
+                    {
+                        totalPrice += item.Price;
+                    }
+                    sepetim.TotalPrice = totalPrice;
+                    or.Update(sepetim);
                 }
-                sepetim.TotalPrice = totalPrice;
-                or.Update(sepetim);
+                else
+                {
+                    sepetim.TotalPrice = 0;
+                    or.Update(sepetim);
+                }
+                return View(sepetim.OrderDetails);
             }
             else
-            {
-                sepetim.TotalPrice = 0;
-                or.Update(sepetim);
-            }
-            if (sepetim==null)
             {
                 return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View(sepetim.OrderDetails);
             }
         }
 

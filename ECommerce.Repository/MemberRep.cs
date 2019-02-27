@@ -64,5 +64,6 @@ namespace ECommerce.Repository
             Member mem = db.Members.SingleOrDefault(m => m.Password == Password && m.Email == Email);
             return result.GetT(mem);
         }
+              
     }
 }

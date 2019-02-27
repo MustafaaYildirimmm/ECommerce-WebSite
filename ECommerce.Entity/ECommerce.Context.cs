@@ -29,7 +29,6 @@ namespace ECommerce.Entity
     
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
@@ -37,6 +36,7 @@ namespace ECommerce.Entity
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
     
         public virtual ObjectResult<GetProductList_Result> GetProductList()

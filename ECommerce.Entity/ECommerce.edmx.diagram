@@ -7,14 +7,11 @@
       <Diagram DiagramId="d910fc492d51443c8f13a990e576d334" Name="Diagram1">
         <EntityTypeShape EntityType="ECommerceModel.Brand" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.Category" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECommerceModel.Member" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.Order" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.OrderDetail" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.Payment" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
         <EntityTypeShape EntityType="ECommerceModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECommerceModel.UserRole" Width="1.5" PointX="1.5" PointY="11.375" IsExpanded="true" />
-        <AssociationConnector Association="ECommerceModel.FK_Member_UserRole" ManuallyRouted="false" />
-        <AssociationConnector Association="ECommerceModel.FK_Order_Member" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ECommerceModel.UserRole" Width="1.5" PointX="0.5" PointY="12.25" IsExpanded="true" />
         <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Order" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ECommerceModel.Photo" Width="1.5" PointX="5.25" PointY="10" />
         <EntityTypeShape EntityType="ECommerceModel.Product" Width="1.5" PointX="3" PointY="1.875" />
@@ -22,10 +19,13 @@
         <AssociationConnector Association="ECommerceModel.FK_Product_Category" />
         <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="ECommerceModel.FK_Photo_Product" />
-        <EntityTypeShape EntityType="ECommerceModel.Invoice" Width="1.5" PointX="5.25" PointY="13.625" />
+        <EntityTypeShape EntityType="ECommerceModel.Member" Width="1.5" PointX="2.75" PointY="16.375" />
+        <AssociationConnector Association="ECommerceModel.FK_Member_UserRole" />
+        <AssociationConnector Association="ECommerceModel.FK_Order_Member" />
+        <EntityTypeShape EntityType="ECommerceModel.Invoice" Width="1.5" PointX="5.25" PointY="12.75" />
         <AssociationConnector Association="ECommerceModel.FK_Invoice_Order" />
         <AssociationConnector Association="ECommerceModel.FK_Invoice_Payment" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

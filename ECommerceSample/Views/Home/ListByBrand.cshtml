@@ -3,7 +3,15 @@
 
 @{
     ViewBag.Title = "ListByBrand";
-    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    if (User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_AuthenticatedLayout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    }
 }
 
 <h2>List By Brand</h2>

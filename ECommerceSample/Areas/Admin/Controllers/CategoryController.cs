@@ -42,7 +42,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
             ViewBag.Message = result.resultint.UserMessage;
             return View();
         }
-
+        [HttpPost,ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id)
         {
             result.resultint= cr.Delete(id);

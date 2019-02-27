@@ -30,6 +30,7 @@ namespace ECommerce.Repository
 
         public override Result<int> Insert(Invoice item)
         {
+
             db.Invoices.Add(item);
             return result.GetResult(db);
         }

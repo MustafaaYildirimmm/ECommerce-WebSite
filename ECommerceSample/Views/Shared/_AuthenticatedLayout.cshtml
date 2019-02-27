@@ -57,7 +57,18 @@
                     <li class="divider"></li>
                     <li class="pull-right"><a href="~/Account/LogOut" class="nav4">Log Out</a></li>
                     <li class="divider"></li>
-                    <li class="pull-right">Welcome @ViewBag.CurrentUser</li>
+                    <li class="pull-right">
+                        Welcome
+                        @{
+                            if (Session["CurrentUser"] != null)
+                            {
+                                Member m = new Member();
+                                m = (Member)Session["CurrentUser"];
+                                <span>@m.FirstName.ToUpper() @m.LastName.ToUpper() </span>
+                            }
+
+                        }
+                    </li>
                     <li class="divider"></li>
                 </ul>
                 <div class="right_menu_corner"></div>
