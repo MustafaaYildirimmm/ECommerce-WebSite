@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressRep.cs" />
     <Compile Include="BrandRep.cs" />
     <Compile Include="CategoryRep.cs" />
     <Compile Include="DataRepository.cs" />

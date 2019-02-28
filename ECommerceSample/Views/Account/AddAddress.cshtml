@@ -1,0 +1,79 @@
+﻿@model ECommerce.Entity.Address
+
+@{
+    ViewBag.Title = "AddAddress";
+    if (User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    }
+}
+
+<h2>Adres Bilgileri Ekleme</h2>
+@using (Html.BeginForm("AddAddress","Account",FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(m => m.RegName, "Kayit Adi :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.RegName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RegName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, "Adi :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address1, "Address :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Address1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.City, "Şehir :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.District, "İlçe :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.District, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.District, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PostCode, "Posta Kodu :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PostCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, "Telefon :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TCNo, "TC No :", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.TCNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TCNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success col-md-offset-2 col-md-10" value="Kaydet" />
+    </div>
+}
+

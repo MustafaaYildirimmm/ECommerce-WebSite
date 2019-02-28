@@ -36,8 +36,9 @@ namespace ECommerce.Entity
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
     
         public virtual ObjectResult<GetProductList_Result> GetProductList()
         {

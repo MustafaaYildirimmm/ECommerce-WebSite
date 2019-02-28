@@ -7,13 +7,15 @@ using System.Web.Security;
 using ECommerceSample.Models.VM;
 using ECommerce.Repository;
 using ECommerce.Entity;
+using ECommerce.Common;
 
 namespace ECommerceSample.Controllers
 {
     public class AccountController : Controller
     {
         MemberRep mr = new MemberRep();
-
+        AddressRep ar = new AddressRep();
+        Result<int> result = new Result<int>();
         // GET: Account
         public ActionResult Login()
         {
@@ -42,11 +44,11 @@ namespace ECommerceSample.Controllers
                 if (user.ProccessResult != null)
                 {
                     FormsAuthentication.SetAuthCookie(user.ProccessResult.UserID.ToString(), true);
-                    if (user.ProccessResult.RoleID==1)
+                    if (user.ProccessResult.RoleID == 1)
                     {
                         return RedirectToAction("List", "Admin/Product");
                     }
-                    else
+                    else if (user.ProccessResult.RoleID == 2)
                     {
                         return RedirectToAction("Index", "Home");
                     }
@@ -73,6 +75,88 @@ namespace ECommerceSample.Controllers
                 return RedirectToAction("Login", "Account");
             }
             return View(model);
+        }
+
+        public ActionResult MyAccount()
+        {
+            return View();
+        }
+
+        public ActionResult MyOrders()
+        {
+            return View();
+        }
+
+        public ActionResult MyInfo()
+        {
+            Member m = (Member)Session["CurrentUser"];
+            return View(m);
+        }
+
+        [HttpPost]
+        public ActionResult MyInfo(Member model, HttpPostedFileBase photoPath)
+        {
+            //img update
+            string photoName = model.Photo;
+            string path = "", fullPath = "";
+
+            if (photoPath != null)
+            {
+                photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                path = Server.MapPath("~/Upload/" + photoName);
+                fullPath = Request.MapPath("~/Upload/" + model.Photo);
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+                photoPath.SaveAs(path);
+            }
+            model.Photo = photoName;
+            result = mr.Update(model);
+
+            return RedirectToAction("MyAccount", "Account");
+        }
+
+        public ActionResult MyAddress()
+        {
+            Member m = (Member)Session["CurrentUser"];
+            return View(m.Addresses);
+        }
+
+        public ActionResult AddAddress()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAddress(Address model)
+        {
+            Member m = (Member)Session["CurrentUser"];
+            model.MemberId = m.UserID;
+            result = ar.Insert(model);
+            if (result.IsSucceded)
+            {
+                return RedirectToAction("MyAccount", "Account");
+            }
+            return View(model);
+        }
+
+        public ActionResult EditAddress(int id)
+        {
+            return View(ar.GetById(id).ProccessResult);
+        }
+
+        [HttpPost]
+        public ActionResult EditAddress(Address model)
+        {
+            result = ar.Update(model);
+            return RedirectToAction("MyAccount", "Account");
+        }
+
+        public ActionResult DeleteAd(int id)
+        {
+            result = ar.Delete(id);
+            return RedirectToAction("MyAccount", "Account");
         }
     }
 }

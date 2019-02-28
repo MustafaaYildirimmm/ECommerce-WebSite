@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="~/Content/electronix/style.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="iecss.css" />
     <![endif]-->
@@ -30,20 +29,20 @@
         <div id="header">
             <div id="logo"> <a href="#"><img src="~/Content/electronix/images/logo.png" alt="" border="0" width="237" height="140" /></a> </div>
             @*<div class="oferte_content">
-                    <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
-                    <div class="oferta">
-                        <div class="oferta_content">
-                            <img src="images/laptop.png" width="94" height="92" alt="" border="0" class="oferta_img" />
-                            <div class="oferta_details">
-                                <div class="oferta_title">Samsung GX 2004 LM</div>
-                                <div class="oferta_text"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </div>
-                                <a href="details.html" class="details">details</a>
-                            </div>
+                <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
+                <div class="oferta">
+                    <div class="oferta_content">
+                        <img src="images/laptop.png" width="94" height="92" alt="" border="0" class="oferta_img" />
+                        <div class="oferta_details">
+                            <div class="oferta_title">Samsung GX 2004 LM</div>
+                            <div class="oferta_text"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </div>
+                            <a href="details.html" class="details">details</a>
                         </div>
-                        <div class="oferta_pagination"> <span class="current">1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> </div>
                     </div>
-                    <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
-                </div>*@
+                    <div class="oferta_pagination"> <span class="current">1</span> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> </div>
+                </div>
+                <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
+            </div>*@
             <!-- end of oferte_content-->
         </div>
         <div id="main_content">
@@ -54,16 +53,41 @@
                     <li class="divider"></li>
                     <li><a href="~/Home/ListAll" class="nav2">Products</a></li>
                     <li class="divider"></li>
-                    <li class="pull-right"><a href="~/Account/Register" class="nav6">Register</a></li>
+                    <li><a href="~/Account/MyAccount" class="nav3">My account</a></li>
                     <li class="divider"></li>
-                    <li class="pull-right"><a href="~/Account/Login" class="nav4">Login</a></li>
+                    <li class="pull-right"><a href="~/Account/LogOut" class="nav4">Log Out</a></li>
+                    <li class="divider"></li>
+                    <li class="pull-right">
+                        Welcome
+                        @{
+                            if (Session["CurrentUser"] != null)
+                            {
+                                Member m = new Member();
+                                m = (Member)Session["CurrentUser"];
+                                <span>@m.FirstName.ToUpper() @m.LastName.ToUpper() </span>
+                            }
+
+                        }
+                    </li>
                     <li class="divider"></li>
                 </ul>
                 <div class="right_menu_corner"></div>
             </div>
-            <!-- end of menu tab -->
-            <div class="crumb_navigation"> Navigation: <span class="current">Home</span> </div>
+
+            <!--left menu-->
+            <div class="list-group col-md-2" style="margin-top:25px;font-size:14px">
+                <a href="~/Account/MyAccount" class="list-group-item ">
+                    Hesabım
+                </a>
+                <a href="~/Account/MyOrders" class="list-group-item">Siparişlerim</a>
+                <a href="~/Account/MyInfo" class="list-group-item">Kişisel Bilgilerim</a>
+                <a href="~/Account/MyAddress" class="list-group-item">Adres Defterim</a>
+            </div>
+
+
+            <div class="center_content">
                 @RenderBody()
+            </div>
 
         </div>
         <!-- end of main content -->

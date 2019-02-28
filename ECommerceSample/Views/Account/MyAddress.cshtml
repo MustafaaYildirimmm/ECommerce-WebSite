@@ -1,0 +1,59 @@
+﻿@using ECommerce.Entity
+@model IEnumerable<Address>
+
+@{
+    ViewBag.Title = "MyAddress";
+    if (User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    }
+}
+
+<h2>Adres Defteri</h2>
+
+<p>İstediğiniz sayıda adresi (eviniz, iş yeriniz, ailenizin evi vs.) kaydedin. Böylece her sipariş verdiğinizde teslimat adresini yeniden girmeniz gerekmeyecek.</p>
+
+<table class="table  table-hover ">
+
+    @foreach (var item in Model)
+    {
+        if (item != null)
+        {
+            <tr>
+                <td class="col-md-8">
+                    <h5 class="text-center" style="font-weight:bold;font-style:oblique">
+                        @item.RegName
+                    </h5>
+                    <h6 class="text-center">
+                        @item.Address1 @item.District/@item.City.ToUpper() Türkiye @item.PostCode
+                    </h6>
+                </td>
+                <td class="col-md-4">
+                    @using (Html.BeginForm("DeleteAd", "Account", new { @id = item.AddressId }))
+                    {
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                        <a href="~/Account/EditAddress/@item.AddressId" class="btn btn-success">Edit</a>
+                    }
+
+                </td>
+            </tr>
+
+        }
+    }
+
+</table>
+
+
+
+<div style="margin-top:50px">
+    <a href="~/Account/AddAddress">
+        <span><i class="glyphicon glyphicon-plus"></i></span>
+        Yeni Adres Ekle
+    </a>
+
+</div>

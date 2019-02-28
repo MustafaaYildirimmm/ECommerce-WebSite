@@ -50,8 +50,8 @@ namespace ECommerce.Repository
             m.Password = item.Password;
             m.Email = item.Email;
             m.RoleID = item.RoleID;
-            m.Address = item.Address;
             m.Photo = item.Photo;
+            m.Phone = item.Phone;
             return result.GetResult(db);
         }
 

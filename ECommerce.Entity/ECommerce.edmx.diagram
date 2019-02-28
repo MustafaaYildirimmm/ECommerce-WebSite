@@ -19,12 +19,14 @@
         <AssociationConnector Association="ECommerceModel.FK_Product_Category" />
         <AssociationConnector Association="ECommerceModel.FK_OrderDetail_Product" />
         <AssociationConnector Association="ECommerceModel.FK_Photo_Product" />
-        <EntityTypeShape EntityType="ECommerceModel.Member" Width="1.5" PointX="2.75" PointY="16.375" />
-        <AssociationConnector Association="ECommerceModel.FK_Member_UserRole" />
-        <AssociationConnector Association="ECommerceModel.FK_Order_Member" />
         <EntityTypeShape EntityType="ECommerceModel.Invoice" Width="1.5" PointX="5.25" PointY="12.75" />
         <AssociationConnector Association="ECommerceModel.FK_Invoice_Order" />
         <AssociationConnector Association="ECommerceModel.FK_Invoice_Payment" />
+        <EntityTypeShape EntityType="ECommerceModel.Address" Width="1.5" PointX="5" PointY="16.5" />
+        <EntityTypeShape EntityType="ECommerceModel.Member" Width="1.5" PointX="2.75" PointY="16.5" />
+        <AssociationConnector Association="ECommerceModel.FK_Address_Member" />
+        <AssociationConnector Association="ECommerceModel.FK_Member_UserRole" />
+        <AssociationConnector Association="ECommerceModel.FK_Order_Member" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
