@@ -246,6 +246,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmailSending\EmailSend.cs" />
+    <Compile Include="Models\InvoiceModel\InvAddModel.cs" />
     <Compile Include="Models\VM\LoginVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -315,6 +317,7 @@
     <Content Include="Views\Account\MyAddress.cshtml" />
     <Content Include="Views\Account\AddAddress.cshtml" />
     <Content Include="Views\Account\EditAddress.cshtml" />
+    <Content Include="Views\Account\MyOrderDet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

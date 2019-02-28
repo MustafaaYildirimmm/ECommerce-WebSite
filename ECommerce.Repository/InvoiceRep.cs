@@ -37,7 +37,8 @@ namespace ECommerce.Repository
 
         public override Result<List<Invoice>> List()
         {
-            throw new NotImplementedException();
+            List<Invoice> invList = db.Invoices.ToList();
+           return  result.GetListResult(invList);
         }
 
         public override Result<int> Update(Invoice item)

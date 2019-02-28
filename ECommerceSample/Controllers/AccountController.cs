@@ -84,9 +84,15 @@ namespace ECommerceSample.Controllers
 
         public ActionResult MyOrders()
         {
-            return View();
+            InvoiceRep ir = new InvoiceRep();
+            return View(ir.List().ProccessResult);
         }
 
+        public ActionResult MyOrderDet(int id)
+        {
+            OrderDetailRep ord = new OrderDetailRep();
+            return View(ord.GetLatestObj(id).ProccessResult);
+        }
         public ActionResult MyInfo()
         {
             Member m = (Member)Session["CurrentUser"];

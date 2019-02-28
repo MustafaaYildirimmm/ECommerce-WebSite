@@ -1,5 +1,5 @@
 ﻿@using ECommerce.Entity
-@model Invoice
+@model IEnumerable<Address>
 
 @{
     ViewBag.Title = "Pay";
@@ -13,61 +13,40 @@
     }
 }
 
-<h2>Pay</h2>
+<h2 class="text-center" style="font-style:italic">Pay</h2>
+<hr />
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Pay","Payment",FormMethod.Post))
 {
-    <fieldset>
-        <legend>Invoice</legend>
-        @*<div class="form-horizontal">
+    <table class="table table-bordered">
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    <input style="visibility:" type="radio" name="addID" id="addID" value="@item.AddressId" />
+                </td>
+                <td>
+                    <h5 class="text-center" style="font-weight:bold;font-size:18px;font-style:oblique">@item.RegName</h5>
+                    <h6 class="text-center" style="font-size:16px;font-style:italic">@item.Address1 @item.District/@item.City.ToUpper() Türkiye @item.PostCode</h6>
+                </td>
+                <td class="text-center">
+                    <a href="~/Account/EditAddress/@item.AddressId" style="font-size:14px;font-style:italic" class="text-center">Adresi Düzenle</a>
+                </td>
+            </tr>
+                
+            
+        }
+    </table>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Member.FirstName, "First Name:", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Member.FirstName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Order.Member.FirstName, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Payment Type :", new { @class="control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownList("PaymentTypes",ViewBag.Skills as SelectList,new { @class="form-control"})
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Member.LastName, "Last Name:", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Member.LastName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Order.Member.LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Member.Email, "E-mail Address", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Member.Email, new { @class = "form-control" })
-                    <span>
-                        @Html.ValidationMessageFor(m => m.Member.Email, "", new { @class = "text-danger" })
-                    </span>
+        </div>
 
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Payment, "Payment Type:", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("PaymentTypes", ViewBag.Skills as SelectList, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.PaymentTypeID, "", new { @class = "" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Member.Phone, "Phone :", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Member.Phone, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Member.Phone, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Member.Address, "Address :", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(m => m.Member.Address, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Member.Address, "", new { @class = "text-danger" })
-                </div>
-            </div>
+        <input type="submit"  value="Pay" class="btn btn-success col-md-10 col-md-offset-2" style="margin-bottom:40px" />
+    </div>
 
-            <input type="submit" value="Pay" class="btn btn-success col-md-offset-2" />
-        </div>*@
-    </fieldset>
 }

@@ -22,11 +22,13 @@ namespace ECommerce.Repository
         public override Result<OrderDetail> GetById(int id)
         {
             throw new NotImplementedException();
+            
         }
 
-        public override Result<List<OrderDetail>> GetLatestObj(int Quantity)
+        public override Result<List<OrderDetail>> GetLatestObj(int id)
         {
-            throw new NotImplementedException();
+            List<OrderDetail> ordList = db.OrderDetails.Where(m => m.OrderID == id).ToList();
+            return result.GetListResult(ordList);
         }
 
         public override Result<int> Insert(OrderDetail item)

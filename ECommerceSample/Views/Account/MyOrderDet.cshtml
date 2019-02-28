@@ -1,0 +1,33 @@
+﻿@using ECommerce.Entity
+@model IEnumerable<OrderDetail>
+@{
+    ViewBag.Title = "MyOrderDet";
+    if (User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_AuthenticatedLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    }
+}
+
+<h2>MyOrderDet</h2>
+
+<table class="table table-hover">
+    <tr>
+        <th>PRoduct NAme:</th>
+        <th>Quantity:</th>
+        <th>Price:</th>
+    </tr>
+    @foreach (var ord in Model)
+    {
+    <tr id="trOrdDet">
+        <td>@ord.Product.ProductName</td>
+        <td></td>
+        <td>@ord.Quantity</td>
+        <td>@String.Format("{0:0,0.00}", ord.Price) ₺</td>
+    </tr>
+    }
+</table>
+

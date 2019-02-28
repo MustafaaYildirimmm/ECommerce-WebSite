@@ -1,4 +1,5 @@
-﻿
+﻿@using ECommerce.Entity
+@model IEnumerable<Invoice>
 
 @{
     ViewBag.Title = "MyOrders";
@@ -13,4 +14,46 @@
     }
 }
 
+<table class="table table-hover">
+    <tr>
+        <th>Order Id:</th>
+        <th>Order Date:</th>
+        <th>Payment Date :</th>
+        <th>Total Price:</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        if (item != null)
+        {
+            <tr id="trOrd">
+                <td>@item.Order.OrderID</td>
+                <td>@item.Order.OrderDate</td>
+                <td>@item.PaymentDate</td>
+                <td>@String.Format("{0:0,0.00}",item.Order.TotalPrice) ₺</td>
+                <td><a href="~/Account/MyOrderDet/@item.OrderId" class="btn btn-success">Details</a></td>
+            </tr>
+           @*foreach (var ord in item.Order.OrderDetails.ToList())
+           {
+               <tr id="trOrdDet">
+                   <td>@ord.Product.ProductName</td>
+                   <td></td>
+                   <td>@ord.Quantity</td>
+                   <td>@String.Format("{0:0,0.00}", ord.Price) ₺</td>
+               </tr>
+           }*@
+        }
+    }
+</table>
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    var tr = document.querySelectorAll("#trOrdDet");
+    $(document).ready(function () {
+        tr.forEach(function (ite) {
+            $(ite).hide();
+        });
+    })
+    $("#trOrd").click(function () {
 
+    });
+</script>*@

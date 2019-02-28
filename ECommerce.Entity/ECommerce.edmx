@@ -45,6 +45,7 @@
           <Property Name="OrderId" Type="int" />
           <Property Name="PaymentTypeID" Type="int" />
           <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="AddresID" Type="int" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -132,6 +133,18 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="AddresID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -261,6 +274,10 @@
             <End Role="Member" EntitySet="Member" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Address" Association="Self.FK_Invoice_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
           <AssociationSet Name="FK_Invoice_Order" Association="Self.FK_Invoice_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="Invoice" EntitySet="Invoice" />
@@ -331,8 +348,8 @@
           <Property Name="IsPay" Type="Boolean" />
           <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
-          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Order" ToRole="Invoice" />
           <NavigationProperty Name="Member" Relationship="ECommerceModel.FK_Order_Member" FromRole="Order" ToRole="Member" />
+          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Order" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -415,15 +432,6 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Photo" EntitySet="Photos" />
           </AssociationSet>
-          <EntitySet Name="Invoices" EntityType="ECommerceModel.Invoice" />
-          <AssociationSet Name="FK_Invoice_Order" Association="ECommerceModel.FK_Invoice_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Payment" Association="ECommerceModel.FK_Invoice_Payment">
-            <End Role="Payment" EntitySet="Payments" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
           <EntitySet Name="Addresses" EntityType="ECommerceModel.Address" />
           <EntitySet Name="Members" EntityType="ECommerceModel.Member" />
           <AssociationSet Name="FK_Address_Member" Association="ECommerceModel.FK_Address_Member">
@@ -437,6 +445,19 @@
           <AssociationSet Name="FK_Order_Member" Association="ECommerceModel.FK_Order_Member">
             <End Role="Member" EntitySet="Members" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="Invoices" EntityType="ECommerceModel.Invoice" />
+          <AssociationSet Name="FK_Invoice_Address" Association="ECommerceModel.FK_Invoice_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Order" Association="ECommerceModel.FK_Invoice_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Payment" Association="ECommerceModel.FK_Invoice_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetProductList_Result">
@@ -520,41 +541,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Invoice">
-          <Key>
-            <PropertyRef Name="InvoiceID" />
-          </Key>
-          <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" />
-          <Property Name="PaymentTypeID" Type="Int32" />
-          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Order" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
-          <NavigationProperty Name="Payment" Relationship="ECommerceModel.FK_Invoice_Payment" FromRole="Invoice" ToRole="Payment" />
-        </EntityType>
-        <Association Name="FK_Invoice_Order">
-          <End Type="ECommerceModel.Order" Role="Order" Multiplicity="0..1" />
-          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderID" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Invoice_Payment">
-          <End Type="ECommerceModel.Payment" Role="Payment" Multiplicity="0..1" />
-          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payment">
-              <PropertyRef Name="PaymentID" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="PaymentTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -570,6 +556,7 @@
           <Property Name="TCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="ECommerceModel.FK_Address_Member" FromRole="Address" ToRole="Member" />
+          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Address" FromRole="Address" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -620,6 +607,55 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceID" />
+          </Key>
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="PaymentTypeID" Type="Int32" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="AddresID" Type="Int32" />
+          <NavigationProperty Name="Address" Relationship="ECommerceModel.FK_Invoice_Address" FromRole="Invoice" ToRole="Address" />
+          <NavigationProperty Name="Order" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
+          <NavigationProperty Name="Payment" Relationship="ECommerceModel.FK_Invoice_Payment" FromRole="Invoice" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK_Invoice_Address">
+          <End Type="ECommerceModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="AddresID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Order">
+          <End Type="ECommerceModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Payment">
+          <End Type="ECommerceModel.Payment" Role="Payment" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="PaymentTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -730,16 +766,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Invoices">
-            <EntityTypeMapping TypeName="ECommerceModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="ECommerceModel.Address">
               <MappingFragment StoreEntitySet="Address">
@@ -767,6 +793,17 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="ECommerceModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="AddresID" ColumnName="AddresID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
