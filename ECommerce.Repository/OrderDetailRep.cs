@@ -27,8 +27,7 @@ namespace ECommerce.Repository
 
         public override Result<List<OrderDetail>> GetLatestObj(int id)
         {
-            List<OrderDetail> ordList = db.OrderDetails.Where(m => m.OrderID == id).ToList();
-            return result.GetListResult(ordList);
+            throw new NotImplementedException();
         }
 
         public override Result<int> Insert(OrderDetail item)
@@ -62,6 +61,13 @@ namespace ECommerce.Repository
             OrderDetail ord = db.OrderDetails.SingleOrDefault(t => t.OrderID == OD && t.ProductID == PId);
             db.OrderDetails.Remove(ord);
             return result.GetResult(db);
+        }
+
+        public Result<List<Get_OrdDetAddress_Result>> GetOrdAdd(int id)
+        {
+            ResultProccess<Get_OrdDetAddress_Result> resultt = new ResultProccess<Get_OrdDetAddress_Result>();
+            List<Get_OrdDetAddress_Result> ordList = db.Get_OrdDetAddress(id).ToList();
+            return resultt.GetListResult(ordList);
         }
     }
 }

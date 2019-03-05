@@ -19,7 +19,6 @@
                     <th>Last Name:</th>
                     <th>E-mail</th>
                     <th>Role Name:</th>
-                    <th>Address:</th>
                     <th>Photo:</th>
                     <th>Edit & Delete</th>
                 </tr>
@@ -40,11 +39,11 @@
                         <td>
                             @Html.DisplayFor(m=>item.UserRole.RoleName)
                         </td>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(m=>item.Address)
-                        </td>
+                        </td>*@
                         <td>
-                            <img src="~/Upload/@item.Photo" class="img-circle" width="75" height="75" />
+                            <img src="~/Upload/Member/@item.Photo" class="img-circle" width="75" height="75" />
                         </td>
                         <td>
                             <a href="~/Admin/Member/EditMember/@item.UserID" class="btn btn-success">Edit</a>

@@ -26,8 +26,8 @@
                 {
                     if (item.IsChecked == true)
                     {
-                        <a href="javascript:popImage('~/Upload/@item.PhotoName','Some Title')" title="header=[Zoom] body=[&nbsp;] fade=[on]">
-                            <img src="~/Upload/@item.PhotoName" width="110" height="110" alt="" border="0" />
+                        <a href="javascript:popImage('~/Upload/Product/@item.PhotoName','Some Title')" title="header=[Zoom] body=[&nbsp;] fade=[on]">
+                            <img src="~/Upload/Product/@item.PhotoName" width="110" height="110" alt="" border="0" />
                         </a>
                     }
 
@@ -35,7 +35,7 @@
                 <div class="thumbs">
                     @foreach (var item in Model.Photos)
                     {
-                        <a href="#" title="header=[Thumb1] body=[&nbsp;] fade=[on]"><img src="~/Upload/@item.PhotoName" alt="" border="0" width="35" height="35"/></a>
+                        <a href="#" title="header=[Thumb1] body=[&nbsp;] fade=[on]"><img src="~/Upload/Product/@item.PhotoName" alt="" border="0" width="35" height="35"/></a>
 
                     }
                 </div>

@@ -18,10 +18,9 @@ namespace ECommerce.Repository
 
         public override Result<int> Delete(int id)
         {
+            //product larda; order ile baglantılı oldugu icin silme islemi yapılmayacak sadece kontrol amaclı isdelete sütunu eklendi bu sütuna göre listeleme islemleri yapılcak.
             Product p = db.Products.SingleOrDefault(t => t.ProductID == id);
-            List<Photo> pList = db.Photos.Where(t => t.ProductId == id).ToList();
-            db.Products.Remove(p);
-            db.Photos.RemoveRange(pList);
+            p.IsDelete = true;
             return result.GetResult(db);
         }
 
@@ -40,7 +39,7 @@ namespace ECommerce.Repository
 
         public override Result<List<Product>> List()
         {
-            List<Product> ProList = db.Products.ToList();
+            List<Product> ProList = db.Products.Where(t=>t.IsDelete==false).ToList();
             return result.GetListResult(ProList);
         }
 

@@ -14,12 +14,6 @@ namespace ECommerce.Entity
     
     public partial class Address
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address()
-        {
-            this.Invoices = new HashSet<Invoice>();
-        }
-    
         public int AddressId { get; set; }
         public string RegName { get; set; }
         public string Name { get; set; }
@@ -32,7 +26,5 @@ namespace ECommerce.Entity
         public Nullable<int> MemberId { get; set; }
     
         public virtual Member Member { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

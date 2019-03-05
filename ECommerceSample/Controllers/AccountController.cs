@@ -57,7 +57,7 @@ namespace ECommerceSample.Controllers
             ViewBag.Message = "Email or Password Wrong!";
             return View();
         }
-
+        [HttpGet]
         public ActionResult Register()
         {
             ViewBag.RoleTypes = new SelectList(mr.RoleList().ProccessResult, "RoleID", "RoleName");
@@ -69,7 +69,7 @@ namespace ECommerceSample.Controllers
         {
             var RoleId = Convert.ToInt32(RoleTypes);
             model.RoleID = RoleId;
-            var userIns = mr.Insert(model);
+            var userIns = mr.RegisterInsert(model);
             if (userIns.IsSucceded)
             {
                 return RedirectToAction("Login", "Account");
@@ -91,7 +91,7 @@ namespace ECommerceSample.Controllers
         public ActionResult MyOrderDet(int id)
         {
             OrderDetailRep ord = new OrderDetailRep();
-            return View(ord.GetLatestObj(id).ProccessResult);
+            return View(ord.GetOrdAdd(id).ProccessResult);
         }
         public ActionResult MyInfo()
         {
@@ -109,8 +109,8 @@ namespace ECommerceSample.Controllers
             if (photoPath != null)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                path = Server.MapPath("~/Upload/" + photoName);
-                fullPath = Request.MapPath("~/Upload/" + model.Photo);
+                path = Server.MapPath("~/Upload/Member/" + photoName);
+                fullPath = Request.MapPath("~/Upload/Member/" + model.Photo);
                 if (System.IO.File.Exists(fullPath))
                 {
                     System.IO.File.Delete(fullPath);

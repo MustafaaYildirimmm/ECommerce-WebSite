@@ -64,6 +64,16 @@ namespace ECommerce.Repository
             Member mem = db.Members.SingleOrDefault(m => m.Password == Password && m.Email == Email);
             return result.GetT(mem);
         }
+
+        public Result<int> RegisterInsert(Member model)
+        {
+            bool check = db.Members.Any(m => m.Email == model.Email);
+            if (check==false)
+            {
+                db.Members.Add(model);
+            }
+            return result.GetResult(db);
+        }
               
     }
 }

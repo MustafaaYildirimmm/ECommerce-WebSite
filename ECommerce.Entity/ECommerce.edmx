@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="AddressId" />
           </Key>
-          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RegName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
@@ -45,7 +45,7 @@
           <Property Name="OrderId" Type="int" />
           <Property Name="PaymentTypeID" Type="int" />
           <Property Name="PaymentDate" Type="datetime" />
-          <Property Name="AddresID" Type="int" />
+          <Property Name="Addresss" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -106,6 +106,7 @@
           <Property Name="Stock" Type="int" />
           <Property Name="BrandID" Type="int" />
           <Property Name="CategoryID" Type="uniqueidentifier" />
+          <Property Name="IsDelete" Type="bit" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -133,18 +134,6 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Invoice_Address">
-          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="AddressId" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="AddresID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -256,6 +245,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Get_OrdDetAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetProductList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ECommerceModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
@@ -273,10 +265,6 @@
           <AssociationSet Name="FK_Address_Member" Association="Self.FK_Address_Member">
             <End Role="Member" EntitySet="Member" />
             <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Address" Association="Self.FK_Invoice_Address">
-            <End Role="Address" EntitySet="Address" />
-            <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_Invoice_Order" Association="Self.FK_Invoice_Order">
             <End Role="Order" EntitySet="Order" />
@@ -446,11 +434,16 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <FunctionImport Name="Get_OrdDetAdd" ReturnType="Collection(ECommerceModel.Get_OrdDetAdd_Result)" >
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_OrdDetAdd2" ReturnType="Collection(ECommerceModel.Get_OrdDetAdd2_Result)">
+          <Parameter Name="orderDetID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Get_OrdDetAdd3" ReturnType="Collection(ECommerceModel.Get_OrdDetAdd3_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Invoices" EntityType="ECommerceModel.Invoice" />
-          <AssociationSet Name="FK_Invoice_Address" Association="ECommerceModel.FK_Invoice_Address">
-            <End Role="Address" EntitySet="Addresses" />
-            <End Role="Invoice" EntitySet="Invoices" />
-          </AssociationSet>
           <AssociationSet Name="FK_Invoice_Order" Association="ECommerceModel.FK_Invoice_Order">
             <End Role="Order" EntitySet="Orders" />
             <End Role="Invoice" EntitySet="Invoices" />
@@ -459,6 +452,9 @@
             <End Role="Payment" EntitySet="Payments" />
             <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
+          <FunctionImport Name="Get_OrdDetAddress" ReturnType="Collection(ECommerceModel.Get_OrdDetAddress_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetProductList_Result">
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
@@ -492,6 +488,7 @@
           <NavigationProperty Name="Category" Relationship="ECommerceModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="OrderDetails" Relationship="ECommerceModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="Photos" Relationship="ECommerceModel.FK_Photo_Product" FromRole="Product" ToRole="Photo" />
+          <Property Name="IsDelete" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Product_Brand">
           <End Type="ECommerceModel.Brand" Role="Brand" Multiplicity="0..1" />
@@ -556,7 +553,6 @@
           <Property Name="TCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="ECommerceModel.FK_Address_Member" FromRole="Address" ToRole="Member" />
-          <NavigationProperty Name="Invoices" Relationship="ECommerceModel.FK_Invoice_Address" FromRole="Address" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -610,6 +606,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="Get_OrdDetAdd_Result">
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="OrderId1" Nullable="true" />
+          <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="AddresID" Nullable="true" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="String" Name="RegName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="District" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TCNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MemberId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_OrdDetAdd2_Result">
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="OrderId1" Nullable="true" />
+          <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="AddresID" Nullable="true" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="String" Name="RegName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="District" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TCNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MemberId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Get_OrdDetAdd3_Result">
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="String" Name="RegName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="District" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TCNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MemberId" Nullable="true" />
+        </ComplexType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -618,23 +674,10 @@
           <Property Name="OrderId" Type="Int32" />
           <Property Name="PaymentTypeID" Type="Int32" />
           <Property Name="PaymentDate" Type="DateTime" Precision="3" />
-          <Property Name="AddresID" Type="Int32" />
-          <NavigationProperty Name="Address" Relationship="ECommerceModel.FK_Invoice_Address" FromRole="Invoice" ToRole="Address" />
+          <Property Name="Addresss" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Order" Relationship="ECommerceModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
           <NavigationProperty Name="Payment" Relationship="ECommerceModel.FK_Invoice_Payment" FromRole="Invoice" ToRole="Payment" />
         </EntityType>
-        <Association Name="FK_Invoice_Address">
-          <End Type="ECommerceModel.Address" Role="Address" Multiplicity="0..1" />
-          <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="AddressId" />
-            </Principal>
-            <Dependent Role="Invoice">
-              <PropertyRef Name="AddresID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Invoice_Order">
           <End Type="ECommerceModel.Order" Role="Order" Multiplicity="0..1" />
           <End Type="ECommerceModel.Invoice" Role="Invoice" Multiplicity="*" />
@@ -659,6 +702,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="Get_OrdDetAddress_Result">
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="true" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
+          <Property Type="String" Name="Addresss" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -757,6 +810,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ECommerceModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
@@ -799,7 +853,7 @@
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="ECommerceModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="AddresID" ColumnName="AddresID" />
+                <ScalarProperty Name="Addresss" ColumnName="Addresss" />
                 <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -807,6 +861,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Get_OrdDetAddress" FunctionName="ECommerceModel.Store.Get_OrdDetAddress">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ECommerceModel.Get_OrdDetAddress_Result">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="Addresss" ColumnName="Addresss" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

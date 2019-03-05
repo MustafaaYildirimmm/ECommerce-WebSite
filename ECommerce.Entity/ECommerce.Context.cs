@@ -44,5 +44,15 @@ namespace ECommerce.Entity
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductList_Result>("GetProductList");
         }
+    
+            
+        public virtual ObjectResult<Get_OrdDetAddress_Result> Get_OrdDetAddress(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_OrdDetAddress_Result>("Get_OrdDetAddress", idParameter);
+        }
     }
 }

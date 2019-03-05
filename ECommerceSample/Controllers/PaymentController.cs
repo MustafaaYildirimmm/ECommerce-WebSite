@@ -33,12 +33,14 @@ namespace ECommerceSample.Controllers
         public ActionResult Pay(string PaymentTypes, string addID)
         {
             Invoice model = new Invoice();
+            AddressRep ar = new AddressRep();         
             model.PaymentDate = DateTime.Now;
             int paymentTypeId = Convert.ToInt32(PaymentTypes);
             model.PaymentTypeID = paymentTypeId;
             model.OrderId = ((Order)Session["Order"]).OrderID;
             var addressId = Convert.ToInt32(addID);
-            model.AddresID = addressId;
+            Address ad = ar.GetById(addressId).ProccessResult;
+            model.Addresss = String.Format(ad.Name.ToUpper() + " " + ad.Phone + " " + ad.PostCode + " " + ad.TCNo);
             InvoiceRep irep = new InvoiceRep();
             if (irep.Insert(model).IsSucceded)
             {
@@ -58,7 +60,7 @@ namespace ECommerceSample.Controllers
                 }
                 body += "<tr style='border:1px solid black'><td></td><td></td><td> Total Price :" + ord.TotalPrice +"₺ </td></table>";
                 email.mailSending(subject,body,m.Email);
-                Session.Abandon();
+                Session["Order"] = null;
                 return RedirectToAction("Index", "Home");
             }
             else

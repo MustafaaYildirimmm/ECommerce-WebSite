@@ -54,7 +54,7 @@ namespace ECommerceSample.Areas.Admin.Controllers
             if (photoPath != null)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                string path = Server.MapPath("~/Upload/" + photoName);
+                string path = Server.MapPath("~/Upload/Member/" + photoName);
                 model.members.Photo = photoName;
                 photoPath.SaveAs(path);
             }
@@ -81,16 +81,15 @@ namespace ECommerceSample.Areas.Admin.Controllers
             return RedirectToAction("List");
         }
 
-        [ValidateAntiForgeryToken]
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult EditMember(MemberViewModel model, HttpPostedFileBase photoPath)
         {
             string photoName = model.members.Photo;
             if (photoPath != null)
             {
                 photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                string path = Server.MapPath("~/Upload/" + photoName);
-                string fullpath = Request.MapPath("~/Upload/" + model.members.Photo);
+                string path = Server.MapPath("~/Upload/Member/" + photoName);
+                string fullpath = Request.MapPath("~/Upload/Member/" + model.members.Photo);
                 if (System.IO.File.Exists(fullpath))
                 {
                     System.IO.File.Delete(fullpath);

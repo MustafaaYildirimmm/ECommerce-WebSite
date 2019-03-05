@@ -84,10 +84,11 @@ namespace ECommerceSample.Areas.Admin.Controllers
                 if ( photoPaths[i] != null)
                 {
                     string photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                    string path = Server.MapPath("~/Upload/" + photoName);
+                    string path = Server.MapPath("~/Upload/Product/" + photoName);
                     Photo p = new Photo();
-                    p.PhotoName = photoName;
+                    p.PhotoName = photoName;    
                     model.Product.Photos.Add(p);
+                    model.Product.IsDelete = false;
                     photoPaths[i].SaveAs(path);
                 }
             }
@@ -133,10 +134,10 @@ namespace ECommerceSample.Areas.Admin.Controllers
                 if (photoPath[k] != null)
                 {
                     photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                    string path = Server.MapPath("~/Upload/" + photoName);
+                    string path = Server.MapPath("~/Upload/Product/" + photoName);
                     photoPath[k].SaveAs(path);
                     pr.PhotoUpdate(photoNames[i], model.Product.ProductID, photoName);
-                    fullPath = Request.MapPath("~/Upload/" + photoNames[i]);
+                    fullPath = Request.MapPath("~/Upload/Product/" + photoNames[i]);
                     if (System.IO.File.Exists(fullPath))
                     {
                         System.IO.File.Delete(fullPath);

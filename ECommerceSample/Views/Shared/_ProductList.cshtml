@@ -9,8 +9,8 @@
     <div class="prod_box">
         <div class="top_prod_box"></div>
         <div class="center_prod_box">
-            <div class="product_title">
-                <a href="details.html">@item.ProductName</a>
+            <div class="product_title" style="font-size:14px">
+                <a href="~/Home/Details/@item.ProductID">@item.ProductName</a>
             </div>
             <div class="product_img">
                 <a href="~/Home/Details/@item.ProductID">
@@ -19,7 +19,7 @@
                         {
                             if (img.IsChecked == true)
                             {
-                                <img src="~/Upload/@img.PhotoName" width="99" height="99" />
+                                <img src="~/Upload/Product/@img.PhotoName" width="99" height="99" />
                             }
 
                         }
@@ -28,7 +28,7 @@
                 </a>
             </div>
             <div class="prod_price">
-                <span class="price">@item.Price ₺</span>
+                <span class="price" style="font-size:16px">@String.Format("{0:0,0.00}", item.Price) ₺</span>
             </div>
         </div>
         <div class="bottom_prod_box"></div>

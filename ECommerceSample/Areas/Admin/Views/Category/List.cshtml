@@ -9,10 +9,11 @@
 
 
 <h2 class="text-center">Category List</h2>
-@Html.ActionLink("Create Category","AddCategory")
+@Html.ActionLink("Create Category", "AddCategory")
 <div class="alert-success">
     @ViewBag.Message
 </div>
+
 <table class="table table-hover">
     <tr class="active">
         <th>CategoryName:</th>
@@ -27,10 +28,16 @@
             <td>@item.Description</td>
             <td class=" col-md-4">
                 <a href="~/Admin/Category/EditCategory?id=@item.CategoryID" class="btn btn-success col-xs-6 col-md-4">Edit</a>
-                @Html.ActionLink("Delete", "Delete", new { @id = item.CategoryID }, new { @class = "btn btn-danger col-xs-6 col-md-5" })
+                @using (Html.BeginForm("Delete", "Category", new {@id=item.CategoryID }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Delete" class="btn btn-success" />
+                }
             </td>
         </tr>
     }
 </table>
+
+
 
 

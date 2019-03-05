@@ -14,6 +14,7 @@
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m=>Model.members.UserID)
+    @Html.HiddenFor(m=>Model.members.Photo)
     <div class="form-horizontal">
         <h4>Member</h4>
         <hr />
@@ -64,17 +65,17 @@
         <div class="form-group">
             @Html.LabelFor(m => m.members.Photo, "Photo:", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <img src="~/Upload/@Model.members.Photo" class="img-circle" width="75" height="75" id="photo" onchange="show(this)" />
+                <img src="~/Upload/Member/@Model.members.Photo" class="img-circle" width="75" height="75" id="photo" onchange="show(this)" />
                 <input type="file" name="photoPath" id="photoPath" />
             </div>
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.members.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.members.Address, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.members.Address, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-success" />

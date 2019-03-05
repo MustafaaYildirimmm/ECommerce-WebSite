@@ -17,9 +17,9 @@
 {
     @Html.HiddenFor(m=>m.RoleID)
     @Html.HiddenFor(m=>m.UserID)
-    @Html.HiddenFor(m=>m.UserRole)
+    @Html.HiddenFor(m=>m.Photo)
 <div class="form-horizontal" style="margin-top:25px;margin-bottom:100px">
-    <img src="~/Upload/@Model.Photo" width="75" height="75" class="img-circle col-md-offset-6" style="margin-bottom:25px" />
+    <img src="~/Upload/Member/@Model.Photo" width="75" height="75" class="img-circle col-md-offset-6" style="margin-bottom:25px" />
     <div class="form-group">
         @Html.LabelFor(m => m.FirstName, "Adı :", new { @class = "control-label col-md-2" })
         <div class="col-md-10">

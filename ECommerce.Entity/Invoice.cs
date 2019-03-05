@@ -18,9 +18,8 @@ namespace ECommerce.Entity
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> PaymentTypeID { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
-        public Nullable<int> AddresID { get; set; }
+        public string Addresss { get; set; }
     
-        public virtual Address Address { get; set; }
         public virtual Order Order { get; set; }
         public virtual Payment Payment { get; set; }
     }

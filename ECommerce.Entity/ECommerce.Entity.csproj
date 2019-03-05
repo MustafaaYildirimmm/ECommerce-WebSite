@@ -77,6 +77,9 @@
     <Compile Include="GetProductList_Result.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
+    <Compile Include="Get_OrdDetAddress_Result.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
     <Compile Include="Invoice.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>

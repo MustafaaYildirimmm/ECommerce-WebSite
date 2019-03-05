@@ -37,18 +37,19 @@ namespace ECommerceSample.Areas.Admin.Controllers
         public ActionResult AddBrand(Brand model, HttpPostedFileBase photoPath)
         {
             string photoName = "";
-            if (photoPath!=null)
-            {
-                photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-                string path = Server.MapPath("~/Upload/" + photoName);
-                photoPath.SaveAs(path);
-            }
-            model.Photo = photoName;
             if (ModelState.IsValid)
             {
                 result.resultint = br.Insert(model);
                 if (result.resultint.IsSucceded)
+                {
+                    if (photoPath != null)
+                    {
+                        photoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+                        string path = Server.MapPath("~/Upload/Brand/" + photoName);
+                        photoPath.SaveAs(path);
+                    }
                     return RedirectToAction("List");
+                }                   
                 else
                 {
                     ViewBag.Message = result.resultint.UserMessage;
@@ -73,27 +74,24 @@ namespace ECommerceSample.Areas.Admin.Controllers
 
             string PhotoName = model.Photo;
             string path = "";
-            string fullPath = Request.MapPath("~/Upload/" + model.Photo);
-
-            //update
             if (PhotoPath != null)
             {
                 PhotoName = Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
-
-                path = Server.MapPath("~/Upload/" + PhotoName);
+                string fullPath = Request.MapPath("~/Upload/Brand/" + model.Photo);
+                path = Server.MapPath("~/Upload/Brand/" + PhotoName);
                 model.Photo = PhotoName;
-
+                PhotoPath.SaveAs(path);
                 //img deleting
                 if (System.IO.File.Exists(fullPath))
                 {
                     System.IO.File.Delete(fullPath);
                 }
             }
-            model.Photo = PhotoName;
+            //update
             result.resultint = br.Update(model);
             if (result.resultint.IsSucceded)
             {
-                PhotoPath.SaveAs(path);
+                
                 return RedirectToAction("List");
             }
             return View(model);

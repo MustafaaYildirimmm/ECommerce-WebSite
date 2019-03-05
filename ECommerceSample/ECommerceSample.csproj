@@ -242,7 +242,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -309,7 +308,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_AuthenticatedLayout.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Account\MyAccount.cshtml" />
     <Content Include="Views\Account\MyOrders.cshtml" />
     <Content Include="Views\Shared\_AccountLayout.cshtml" />
@@ -327,7 +325,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Upload\" />
+    <Folder Include="Upload\Brand\" />
+    <Folder Include="Upload\Member\" />
+    <Folder Include="Upload\Product\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.Common\ECommerce.Common.csproj">

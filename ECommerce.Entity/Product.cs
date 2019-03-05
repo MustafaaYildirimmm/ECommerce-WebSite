@@ -27,6 +27,7 @@ namespace ECommerce.Entity
         public Nullable<int> Stock { get; set; }
         public Nullable<int> BrandID { get; set; }
         public Nullable<System.Guid> CategoryID { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }
