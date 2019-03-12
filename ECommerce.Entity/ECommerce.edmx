@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="AddressId" />
           </Key>
-          <Property Name="AddressId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RegName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
@@ -37,6 +37,14 @@
           <Property Name="CategoryName" Type="nvarchar(max)" />
           <Property Name="Description" Type="ntext" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Invoice">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -46,6 +54,15 @@
           <Property Name="PaymentTypeID" Type="int" />
           <Property Name="PaymentDate" Type="datetime" />
           <Property Name="Addresss" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogTable" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogDate" Type="date" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -253,7 +270,9 @@
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogTable" EntityType="Self.LogTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
@@ -420,12 +439,7 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Photo" EntitySet="Photos" />
           </AssociationSet>
-          <EntitySet Name="Addresses" EntityType="ECommerceModel.Address" />
           <EntitySet Name="Members" EntityType="ECommerceModel.Member" />
-          <AssociationSet Name="FK_Address_Member" Association="ECommerceModel.FK_Address_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Address" EntitySet="Addresses" />
-          </AssociationSet>
           <AssociationSet Name="FK_Member_UserRole" Association="ECommerceModel.FK_Member_UserRole">
             <End Role="UserRole" EntitySet="UserRoles" />
             <End Role="Member" EntitySet="Members" />
@@ -455,6 +469,13 @@
           <FunctionImport Name="Get_OrdDetAddress" ReturnType="Collection(ECommerceModel.Get_OrdDetAddress_Result)">
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Addresses" EntityType="ECommerceModel.Address" />
+          <EntitySet Name="Customers" EntityType="ECommerceModel.Customer" />
+          <EntitySet Name="LogTables" EntityType="ECommerceModel.LogTable" />
+          <AssociationSet Name="FK_Address_Member" Association="ECommerceModel.FK_Address_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetProductList_Result">
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="50" />
@@ -538,22 +559,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Address">
-          <Key>
-            <PropertyRef Name="AddressId" />
-          </Key>
-          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MemberId" Type="Int32" />
-          <NavigationProperty Name="Member" Relationship="ECommerceModel.FK_Address_Member" FromRole="Address" ToRole="Member" />
-        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="UserID" />
@@ -566,22 +571,10 @@
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="Int32" />
           <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Addresses" Relationship="ECommerceModel.FK_Address_Member" FromRole="Member" ToRole="Address" />
           <NavigationProperty Name="UserRole" Relationship="ECommerceModel.FK_Member_UserRole" FromRole="Member" ToRole="UserRole" />
           <NavigationProperty Name="Orders" Relationship="ECommerceModel.FK_Order_Member" FromRole="Member" ToRole="Order" />
+          <NavigationProperty Name="Addresses" Relationship="ECommerceModel.FK_Address_Member" FromRole="Member" ToRole="Address" />
         </EntityType>
-        <Association Name="FK_Address_Member">
-          <End Type="ECommerceModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="ECommerceModel.Address" Role="Address" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Address">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Member_UserRole">
           <End Type="ECommerceModel.UserRole" Role="UserRole" Multiplicity="0..1" />
           <End Type="ECommerceModel.Member" Role="Member" Multiplicity="*" />
@@ -712,6 +705,51 @@
           <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
           <Property Type="String" Name="Addresss" Nullable="true" />
         </ComplexType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="ECommerceModel.FK_Address_Member" FromRole="Address" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogTable1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_Address_Member">
+          <End Type="ECommerceModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="ECommerceModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -820,22 +858,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Addresses">
-            <EntityTypeMapping TypeName="ECommerceModel.Address">
-              <MappingFragment StoreEntitySet="Address">
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="TCNo" ColumnName="TCNo" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="District" ColumnName="District" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Address1" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="RegName" ColumnName="RegName" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="ECommerceModel.Member">
               <MappingFragment StoreEntitySet="Member">
@@ -875,6 +897,41 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="ECommerceModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="TCNo" ColumnName="TCNo" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address1" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RegName" ColumnName="RegName" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="ECommerceModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTables">
+            <EntityTypeMapping TypeName="ECommerceModel.LogTable">
+              <MappingFragment StoreEntitySet="LogTable">
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="LogTable1" ColumnName="LogTable" />
+                <ScalarProperty Name="LogName" ColumnName="LogName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

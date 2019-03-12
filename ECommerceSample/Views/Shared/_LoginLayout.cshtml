@@ -1,6 +1,7 @@
 ﻿@using ECommerce.Entity
 @using ECommerce.Repository
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -13,22 +14,16 @@
     <link rel="stylesheet" type="text/css" href="iecss.css" />
     <![endif]-->
     <script type="text/javascript" src="~/Content/electronix/js/boxOver.js"></script>
+    <script src="http://code.angularjs.org/1.1.5/angular.js"></script>
 </head>
 <body>
+
     <div id="main_container">
         <div class="top_bar">
-            <div class="top_search">
-                <div class="search_text"><a href="#">Advanced Search</a></div>
-                <input type="text" class="search_input" name="search" />
-                <input type="image" src="~/Content/electronix/images/search.gif" class="search_bt" />
-            </div>
-            <div class="languages">
-                <div class="lang_text">Languages:</div>
-                <a href="#" class="lang"><img src="~/Content/electronix/images/en.gif" alt="" border="0" /></a> <a href="#" class="lang"><img src="~/Content/electronix/images/de.gif" alt="" border="0" /></a>
-            </div>
+
         </div>
         <div id="header">
-            <div id="logo"> <a href="#"><img src="~/Content/electronix/images/logo.png" alt="" border="0" width="237" height="140" /></a> </div>
+            <div id="logo"> <a href="~/Home/Index"><img src="~/Content/electronix/images/logo.png" alt="" border="0" width="237" height="140" /></a> </div>
             @*<div class="oferte_content">
                     <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
                     <div class="oferta">
@@ -63,7 +58,7 @@
             </div>
             <!-- end of menu tab -->
             <div class="crumb_navigation"> Navigation: <span class="current">Home</span> </div>
-                @RenderBody()
+            @RenderBody()
 
         </div>
         <!-- end of main content -->

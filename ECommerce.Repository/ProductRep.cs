@@ -59,7 +59,7 @@ namespace ECommerce.Repository
         {
             /*names: modelden güncellenecek olan photolarn isimleri
              * id:modelden gelen product ın id si
-             * photo:controllerden gelen güncel photoların guid adi
+             * guid:controllerden gelen güncel photoların guid adi
              */
             Photo p = db.Photos.SingleOrDefault(t => t.ProductId == id && names == t.PhotoName);
             p.PhotoName = guid;

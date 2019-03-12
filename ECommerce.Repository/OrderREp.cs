@@ -39,7 +39,9 @@ namespace ECommerce.Repository
 
         public override Result<List<Order>> List()
         {
-            List<Order> ordList = db.Orders.ToList();
+            Order o = new Order();
+            o.IsPay = true;
+            List<Order> ordList = db.Orders.Where(m => m.IsPay == o.IsPay).ToList();
             return result.GetListResult(ordList);
         }
 

@@ -3,12 +3,11 @@
 
 
 
-<div class="center_title_bar">PRODUCTS</div>
 @foreach (var item in Model)
 {
-    <div class="prod_box">
+    <div class="prod_box" style="height:300px;margin:5px">
         <div class="top_prod_box"></div>
-        <div class="center_prod_box">
+        <div class="center_prod_box" style="height:250px">
             <div class="product_title" style="font-size:14px">
                 <a href="~/Home/Details/@item.ProductID">@item.ProductName</a>
             </div>
@@ -35,7 +34,7 @@
         <div class="prod_details_tab">
             <a href="~/Order/Add/@item.ProductID" title="header=[Add to cart] body=[&nbsp;] fade=[on]">
                 <img src="~/Content/electronix/images/cart.gif" alt="" border="0" class="left_bt" />
-            </a>        
+            </a>
             <a href="~/Home/Details/@item.ProductID" class="prod_details">details</a>
         </div>
     </div>

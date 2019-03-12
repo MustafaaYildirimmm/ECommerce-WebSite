@@ -7,21 +7,20 @@ using System.Web;
 
 namespace ECommerceSample.Models.VM
 {
-    public class LoginVM
+    public class RegisterVM
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         [
-            EmailAddress(ErrorMessage ="Please enter E-email type"),
-            Required(ErrorMessage ="Please Enter Your E-mail Address"),
+            EmailAddress(ErrorMessage = "Please enter E-email type"),
+            Required(ErrorMessage = "Please Enter Your E-mail Address"),
             DisplayName("E-Mail")
             ]
         public string Email { get; set; }
         [
-            Required(ErrorMessage ="Please Enter Your Password"),
-            
+            Required(ErrorMessage = "Please Enter Your Password"),
             DisplayName("Password")
             ]
         public string Password { get; set; }
-        [DisplayName("Remember Me!")]
-        public bool IsPersistant { get; set; }
     }
 }

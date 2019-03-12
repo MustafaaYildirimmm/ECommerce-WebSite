@@ -36,16 +36,44 @@ namespace ECommerce.Entity
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<LogTable> LogTables { get; set; }
     
         public virtual ObjectResult<GetProductList_Result> GetProductList()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProductList_Result>("GetProductList");
         }
     
-            
+        public virtual ObjectResult<Get_OrdDetAdd_Result> Get_OrdDetAdd(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_OrdDetAdd_Result>("Get_OrdDetAdd", idParameter);
+        }
+    
+        public virtual ObjectResult<Get_OrdDetAdd2_Result> Get_OrdDetAdd2(Nullable<int> orderDetID)
+        {
+            var orderDetIDParameter = orderDetID.HasValue ?
+                new ObjectParameter("orderDetID", orderDetID) :
+                new ObjectParameter("orderDetID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_OrdDetAdd2_Result>("Get_OrdDetAdd2", orderDetIDParameter);
+        }
+    
+        public virtual ObjectResult<Get_OrdDetAdd3_Result> Get_OrdDetAdd3(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_OrdDetAdd3_Result>("Get_OrdDetAdd3", idParameter);
+        }
+    
         public virtual ObjectResult<Get_OrdDetAddress_Result> Get_OrdDetAddress(Nullable<int> id)
         {
             var idParameter = id.HasValue ?

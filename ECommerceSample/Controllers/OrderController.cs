@@ -23,6 +23,11 @@ namespace ECommerceSample.Controllers
                 Order o = new Order();
                 o.OrderDate = DateTime.Now;
                 o.IsPay = false;
+                if (Session["CurrentUser"]!=null)
+                {
+                    Member m = (Member)Session["CurrentUser"];
+                    o.MemberID = m.UserID;
+                }
                 or.Insert(o);
                 Session["Order"] = or.GetLatestObj(1).ProccessResult[0];
                 OrderDetail od = new OrderDetail();

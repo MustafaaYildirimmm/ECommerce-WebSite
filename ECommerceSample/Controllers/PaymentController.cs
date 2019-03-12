@@ -20,6 +20,10 @@ namespace ECommerceSample.Controllers
             {
                 Member m = (Member)Session["CurrentUser"];
                 ViewBag.PaymentTypes = new SelectList(PaymentRep.Pay(), "PaymentID", "PaymentName");
+                if (m.Addresses.Count==0)
+                {
+                    return RedirectToAction("MyAddress","Account");
+                }
                 return View(m.Addresses.ToList());
             }
             else

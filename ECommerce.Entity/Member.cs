@@ -11,14 +11,14 @@ namespace ECommerce.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Member
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
-            this.Addresses = new HashSet<Address>();
             this.Orders = new HashSet<Order>();
+            this.Addresses = new HashSet<Address>();
         }
     
         public int UserID { get; set; }
@@ -30,10 +30,10 @@ namespace ECommerce.Entity
         public Nullable<int> RoleID { get; set; }
         public string Photo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Addresses { get; set; }
         public virtual UserRole UserRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

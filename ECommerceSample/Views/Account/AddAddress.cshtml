@@ -16,6 +16,7 @@
 <h2>Adres Bilgileri Ekleme</h2>
 @using (Html.BeginForm("AddAddress","Account",FormMethod.Post))
 {
+    @Html.HiddenFor(m=>m.AddressId)
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(m => m.RegName, "Kayit Adi :", new { @class = "control-label col-md-2" })

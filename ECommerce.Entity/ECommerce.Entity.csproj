@@ -59,6 +59,9 @@
     <Compile Include="Category.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
     <Compile Include="ECommerce.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,10 +80,22 @@
     <Compile Include="GetProductList_Result.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
+    <Compile Include="Get_OrdDetAdd2_Result.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Get_OrdDetAdd3_Result.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
     <Compile Include="Get_OrdDetAddress_Result.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
+    <Compile Include="Get_OrdDetAdd_Result.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
     <Compile Include="Invoice.cs">
+      <DependentUpon>ECommerce.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogTable.cs">
       <DependentUpon>ECommerce.tt</DependentUpon>
     </Compile>
     <Compile Include="Member.cs">

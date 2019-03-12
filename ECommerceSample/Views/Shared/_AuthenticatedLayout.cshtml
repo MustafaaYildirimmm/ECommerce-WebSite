@@ -16,18 +16,10 @@
 <body>
     <div id="main_container">
         <div class="top_bar">
-            <div class="top_search">
-                <div class="search_text"><a href="#">Advanced Search</a></div>
-                <input type="text" class="search_input" name="search" />
-                <input type="image" src="~/Content/electronix/images/search.gif" class="search_bt" />
-            </div>
-            <div class="languages">
-                <div class="lang_text">Languages:</div>
-                <a href="#" class="lang"><img src="~/Content/electronix/images/en.gif" alt="" border="0" /></a> <a href="#" class="lang"><img src="~/Content/electronix/images/de.gif" alt="" border="0" /></a>
-            </div>
+            
         </div>
         <div id="header">
-            <div id="logo"> <a href="#"><img src="~/Content/electronix/images/logo.png" alt="" border="0" width="237" height="140" /></a> </div>
+            <div id="logo"> <a href="~/Home/Index"><img src="~/Content/electronix/images/logo.png" alt="" border="0" width="237" height="140" /></a> </div>
             @*<div class="oferte_content">
                     <div class="top_divider"><img src="images/header_divider.png" alt="" width="1" height="164" /></div>
                     <div class="oferta">
@@ -136,9 +128,10 @@
                             <div class="title_box">What’s new</div>
                             <div class="border_box">
                                 <div class="product_title"><a href="details.html">@item.ProductName</a></div>
-                                <div class="product_img"><a href="details.html"><img src="~/Upload/@img.PhotoName" alt="" border="0" width="75" height="75" /></a></div>
+                                <div class="product_img"><a href="details.html"><img src="~/Upload/Product/@img.PhotoName" alt="" border="0" width="75" height="75" /></a></div>
                                 <div class="prod_price"><span class="price">@item.Price ₺</span></div>
                             </div>
+                            break;
                         }
 
                     }

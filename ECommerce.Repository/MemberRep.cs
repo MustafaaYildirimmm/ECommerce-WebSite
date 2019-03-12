@@ -57,7 +57,7 @@ namespace ECommerce.Repository
 
         public Result<List<UserRole>> RoleList()
         {
-            return roleResult.GetListResult(db.UserRoles.ToList());
+            return roleResult.GetListResult(db.UserRoles.Where(t=>t.RoleID==1||t.RoleID==2).ToList());
         } 
         public Result<Member> LoginMb(string Email,string Password)
         {

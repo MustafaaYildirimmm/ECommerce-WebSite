@@ -50,7 +50,7 @@
                     Brand: <span class="blue">@Model.Brand.BrandName</span><br />
                 </div>
                 <div class="prod_price_big"<span class="price">@String.Format("{0:0,0.00}",Model.Price) ₺</span></div>
-                <a href="~/Order/Add" class="addtocart">add to cart</a>
+                <a href="~/Order/Add/@Model.ProductID" class="addtocart">add to cart</a>
             </div>
         </div>
         <div class="bottom_prod_box_big"></div>

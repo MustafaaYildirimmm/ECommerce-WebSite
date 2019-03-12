@@ -44,6 +44,7 @@ namespace ECommerceSample.Controllers
                 if (user.ProccessResult != null)
                 {
                     FormsAuthentication.SetAuthCookie(user.ProccessResult.UserID.ToString(), true);
+
                     if (user.ProccessResult.RoleID == 1)
                     {
                         return RedirectToAction("List", "Admin/Product");
@@ -64,17 +65,26 @@ namespace ECommerceSample.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Register(Member model, string RoleTypes)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterVM model, string RoleTypes)
         {
-            var RoleId = Convert.ToInt32(RoleTypes);
-            model.RoleID = RoleId;
-            var userIns = mr.RegisterInsert(model);
-            if (userIns.IsSucceded)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Account");
+                Member m = new Member();
+                m.FirstName = model.FirstName;
+                m.LastName = model.LastName;
+                m.Email = model.Email;
+                m.Password = model.Password;
+                var RoleId = Convert.ToInt32(RoleTypes);
+                m.RoleID = RoleId;
+                var userIns = mr.RegisterInsert(m);
+                if (userIns.IsSucceded)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                ModelState.AddModelError(string.Empty, "Email adresi sistemimizde kayitldir.");
             }
-            return View(model);
+            return RedirectToAction("Register", "Account");
         }
 
         public ActionResult MyAccount()
@@ -84,8 +94,9 @@ namespace ECommerceSample.Controllers
 
         public ActionResult MyOrders()
         {
+            Member m = (Member)Session["CurrentUser"];
             InvoiceRep ir = new InvoiceRep();
-            return View(ir.List().ProccessResult);
+            return View(ir.GetByMember(m.UserID).ProccessResult);
         }
 
         public ActionResult MyOrderDet(int id)

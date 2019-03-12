@@ -37,13 +37,18 @@ namespace ECommerce.Repository
 
         public override Result<List<Invoice>> List()
         {
-            List<Invoice> invList = db.Invoices.ToList();
-           return  result.GetListResult(invList);
+            throw new NotImplementedException();
         }
 
         public override Result<int> Update(Invoice item)
         {
             throw new NotImplementedException();
+        }
+
+        public Result<List<Invoice>> GetByMember(int id)
+        {
+            List<Invoice> ivcList = db.Invoices.Where(t => t.Order.MemberID == id).ToList();
+            return result.GetListResult(ivcList);
         }
     }
 }
