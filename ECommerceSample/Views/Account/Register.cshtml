@@ -182,6 +182,7 @@
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
         <div class="left">
             <h1>Sign up</h1>
 

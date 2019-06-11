@@ -82,8 +82,9 @@ namespace ECommerceSample.Controllers
                 {
                     return RedirectToAction("Login", "Account");
                 }
-                ModelState.AddModelError(string.Empty, "Email adresi sistemimizde kayitldir.");
+                
             }
+            ModelState.AddModelError("validation", "Email adresi sistemimizde kayitldir.");
             return RedirectToAction("Register", "Account");
         }
 
