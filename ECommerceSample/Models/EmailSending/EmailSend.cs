@@ -15,7 +15,7 @@ namespace ECommerceSample.Models.EmailSending
                 MailMessage email = new MailMessage();
                 string Host = "smtp.gmail.com";
                 string smtpUserName = "mustafaaayildirimm7@gmail.com";
-                string smtpPassword = "galatasaray123";
+                string smtpPassword = "*********";
                 email.From = new MailAddress("mustafaaayildirimm7@gmail.com");
                 int smtpPort = 587;
                 email.IsBodyHtml = true;
